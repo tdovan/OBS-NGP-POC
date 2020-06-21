@@ -1,107 +1,67 @@
 # OBS NGP POC with HPE
 
-This repository describe the tests plan for the POC including:
-
-- Synergy OneView automation
-- Primera automation
+This repository contains the automation playbooks and scripts for :
+- HPE Synergy OneView
+- HPE OSDA (OS Deployment Automation)
+- HPE Primera
 - Cohesity
 - VMWare Cloud Foundation
-- OSDA
-
 
 ![General workflow](images/general-workflow.png)
 
-![OBS NGP CIC architecture](images/telco-caas.png)
-
-## Target audience
-
-TODO
-
 ## Prerequisites
 
-TODO
+Knowledge on ansible, linux, shell scripting
+HPE Oneview API: https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.2/cicf-api/en/index.html
+HPE Primera API: https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=emr_na-a00088912en_us
+Cohesity API: https://developer.cohesity.com/apidocs-641.html#/rest
+VCF API: https://code.vmware.com/apis/921/vmware-cloud-foundation
+
+Then, a linux jump station
 
 ## Quick Start
 
+### Configure your jump station
+cd /tmp/
+curl -O https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+bash Anaconda3-5.3.1-Linux-x86_64.sh
+source ~/.bashrc
+conda info
+to update anaconda: conda update conda
+to delete anaconda: rm -rf ~/anaconda3
 
-### VCF
+pip install jmespath (to capture ip address of oneview server profile)
+conda create --name k8s python=3.6
+conda activate k8s
 
-#### BGP routing
-<epc_sw5950_b1r14_2>disp bgp routing ipv4
-
- Total number of routes: 17
-
- BGP local router ID is 2.2.2.2
- Status codes: * - valid, > - best, d - dampened, h - history
-               s - suppressed, S - stale, i - internal, e - external
-               a - additional-path
-       Origin: i - IGP, e - EGP, ? - incomplete
-
-     Network            NextHop         MED        LocPrf     PrefVal Path/Ogn
-
-* >  2.2.2.2/32         127.0.0.1       0                     32768   ?
-* >  10.6.57.0/24       10.6.57.20      0                     32768   ?
-* >  10.6.57.20/32      127.0.0.1       0                     32768   ?
-* >e 10.15.65.0/24      10.15.66.2      0                     0       65003?
-*  e                    10.15.66.3      0                     0       65003?
-* >  10.15.66.0/24      10.15.66.254    0                     32768   ?
-*  e                    10.15.66.2      0                     0       65003?
-*  e                    10.15.66.3      0                     0       65003?
-* >  10.15.66.254/32    127.0.0.1       0                     32768   ?
-* >  10.24.0.0/16       10.24.34.202    0                     32768   ?
-* >  10.24.34.202/32    127.0.0.1       0                     32768   ?
-* >e 100.64.176.0/31    10.15.66.2      0                     0       65003?
-*  e                    10.15.66.3      0                     0       65003?
-* >e 192.168.11.0       10.15.66.2      0                     0       65003?
-*  e                    10.15.66.3      0                     0       65003?
-* >e 192.168.31.0       10.15.66.2      0                     0       65003?
-*  e                    10.15.66.3      0                     0       65003?
-
-#### cleanup the cloudbuilder
+### Install oneview ansible module and sdk
 ```bash
-https://kb.vmware.com/s/article/75172
-ssh cloud-builder
-vi /data/pgdata/pg_hba.conf
-uncomment the line
-local   replication     all                                     trust
-
-systemctl restart postgres
-sudo psql -U postgres -d bringup -h /home/postgresql/
-delete from execution;
-delete from "Resource";
-\q
-```
-### Synergy : efuse a blade
-
-```bash
-curl https://packages.microsoft.com/config/rhel/7/prod.repo |  sudo tee /etc/yum.repos.d/microsoft.repo
-sudo yum makecache
-sudo yum install powershell
-pwsh
-PS /root> Install-Module hponeview.500
-PS /root> $az1=Connect-HPOVMgmt -Appliance 10.7.9.20 -UserName admin -Password obs@cicGVA1234!
-PS /root> Get-HPOVServer -ApplianceConnection $az1 | Get-HPOVAlert -State active | Set-HPOVAlert -Cleared
-
-PS /root> Get-HPOVEnclosure
-$encl1 = Get-HPOVEnclosure -Name "CZ20040WV4-frame1"
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 10 -Enclosure $encl1 -EFuse
-Reset-HPOVEnclosureDevice -Enclosure $enclosure -Component Device -DeviceID 1
-
-PS /root> Get-HPOVEnclosure
-$encl2 = Get-HPOVEnclosure -Name "CZ20040WYK-frame2"
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 6 -Enclosure $encl2 -EFuse
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 7 -Enclosure $encl2 -EFuse
-
-
-curl -k -i -H "accept: application/json" -H "content-type: application/json" -d '{"userName":"admin","password":"obs@cicGVA1234!"}' -X POST https://synergy.obs.hpecic.net/rest/login-sessions
-curl -k -H "accept: application/json" -H "content-type: application/json" -H "auth: LTI3MTExODk0MTc5Ogwh9xtVHRPsskRskrZpG13qA2mmpGmV" -X GET https://synergy.obs.hpecic.net/rest/server-hardware -o server.xml
-
-https://monpostit.fr/billet/serveur/incidents-serveur/efuse-reset-sur-une-lame-hpe-synergy/
+mkdir -p ~/workspace/github
+add oneview-sdk
+pip install hpOneView
+cd ~/workspace/github
+git clone https://github.com/HewlettPackard/oneview-ansible.git
+cd oneview-ansible
+pip install -r requirements.txt
 ```
 
-## Detailed Step-by-Step
+### Install Primera ansible module and sdk
+```bash
+add 3par-sdk
+pip install hpe3par-sdk
+cd ~/workspace/github
+git clone https://github.com/HewlettPackard/hpe3par_ansible_module
 
-I have break down each steps:
+Add oneview and 3par/primera to the ansible.cfg
+vi /etc/ansible/ansible.cfg
+library         = /home/tdovan/workspace/github/oneview-ansible/library:/home/tdovan/workspace/github/hpe3par_ansible_module
+module_utils    = /home/tdovan/workspace/github/oneview-ansible/library/module_utils:/root/anaconda3/envs/tf-3.6/lib/python3.6/site-packages:/root/anaconda3/lib/python3.7/site-packages
+
+note: replace the path of the library and module_utils  with yours
+```
+
+## Use cases
+
 
 - [00-deploy-hardware](00-deploy-hardware/README.md)
 - [01-create-golden-image](01-create-golden-image/README.md)
@@ -109,6 +69,3 @@ I have break down each steps:
 - [03-provision-bare-metal-server](03-provision-bare-metal-server/README.md)
 - [04-deploy-kubespray](04-deploy-kubespray/README.md)
 - [05-customize-kubernetes](05-customize-kubernetes/README.md)
-  - Istio
-  - Calico
-  - Velero
