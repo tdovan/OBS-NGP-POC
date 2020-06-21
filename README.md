@@ -10,14 +10,15 @@ This repository contains the automation playbooks and scripts for :
 ![General workflow](images/general-workflow.png)
 
 ## Prerequisites
-
+```
 Knowledge on ansible, linux, shell scripting
 HPE Oneview API: https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.2/cicf-api/en/index.html
 HPE Primera API: https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=emr_na-a00088912en_us
 Cohesity API: https://developer.cohesity.com/apidocs-641.html#/rest
 VCF API: https://code.vmware.com/apis/921/vmware-cloud-foundation
 
-Then, a linux jump station
+and finally: a linux jump station
+```
 
 ## Quick Start
 
