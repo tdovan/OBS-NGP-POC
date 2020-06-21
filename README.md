@@ -9,6 +9,15 @@ This repository contains the automation playbooks and scripts for :
 
 ![General workflow](images/general-workflow.png)
 
+## Use cases
+
+- [01-deploy-with-osda](01-deploy-with-osda/README.md)
+- [02-create-golden-image](01-create-golden-image/README.md)
+- [03-create-oneview-server-template](02-create-oneview-server-template/README.md)
+- [04-provision-bare-metal-server](03-provision-bare-metal-server/README.md)
+- [05-deploy-kubespray](04-deploy-kubespray/README.md)
+- [06-customize-kubernetes](05-customize-kubernetes/README.md)
+
 ## Prerequisites
 
 ```
@@ -66,12 +75,3 @@ module_utils    = /home/tdovan/workspace/github/oneview-ansible/library/module_u
 
 note: replace the path of the library and module_utils  with yours
 ```
-
-## Use cases
-
-- [00-deploy-with-osda](00-deploy-with-osda/README.md)
-- [01-create-golden-image](01-create-golden-image/README.md)
-- [02-create-oneview-server-template](02-create-oneview-server-template/README.md)
-- [03-provision-bare-metal-server](03-provision-bare-metal-server/README.md)
-- [04-deploy-kubespray](04-deploy-kubespray/README.md)
-- [05-customize-kubernetes](05-customize-kubernetes/README.md)
