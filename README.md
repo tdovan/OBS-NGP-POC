@@ -9,9 +9,14 @@ then go to the use case
 Otherwise, you can follow the instruction here: [00-prepare-your-vm](00-prepare-your-vm/README.md)
 
 ## Use cases
-- [01-deploy-synergy-from-excel](01-deploy-synergy-from-excel/README.md): deploy Synergy fromwith input from a excel file. This playbooks can used to automate the deployment of a ne synergy. This is not applicable for the POC as the platform has already been configured. 
-- [02-deploy-server-with-osda]02-deploy-server-with-osda/README.md): deploy a server profile from a template + install the OS based on a kickstart.
-- [03-deploy-vcf-node](03-deploy-vcf-node/README.md): deploy a server from a template + install the OS + commision the node in vcf + add the node to the VI Workload domain
+- [01-deploy-synergy-from-excel](01-deploy-synergy-from-excel/README.md)
+Deploy Synergy fromwith input from a excel file. This playbooks can used to automate the deployment of a ne synergy. This is not applicable for the POC as the platform has already been configured. 
+
+- [02-deploy-server-with-osda](02-deploy-server-with-osda/README.md)
+Deploy a server profile from a template + install the OS based on a kickstart.
+
+- [03-deploy-vcf-node](03-deploy-vcf-node/README.md)
+Deploy a server from a template + install the OS + commision the node in vcf + add the node to the VI Workload domain
 
 
 
