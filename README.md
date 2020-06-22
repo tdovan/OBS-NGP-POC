@@ -1,11 +1,11 @@
 # OBS NGP POC with HPE
 
-This repository contains the automation playbooks and scripts for :
-- HPE Synergy OneView
-- HPE OSDA (OS Deployment Automation)
-- HPE Primera
-- Cohesity
-- VMWare Cloud Foundation
+This repository contains ready-to-use ansible playbooks and scripts to automate tasks.
+The environnment already contains a VM ready-to-use. If you want a quick start, juts connect to it:
+```bash
+ssh admin10.15.60.206
+```
+Otherwise, you can follow the instruction here: [00-prepare-your-vm](00-prepare-your-vm/README.md)
 
 ![General workflow](images/general-workflow.png)
 
