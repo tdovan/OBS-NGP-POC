@@ -4,12 +4,12 @@
 Validate if the host is ready for commissioning.
 
 ```bash
-curl -k  'https://10.10.108.159/v1/hosts/validations/commissions' -i -u 'admin:HP1nvent!' -X POST \
+curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts/validations/commissions' -i -u 'admin:PASSWORD' -X POST \
     -H 'Content-Type: application/json' \
     -d '[ {
   "fqdn" : "vcfwlkd06.vcf.local",
   "username" : "root",
-  "password" : "HP1nvent!",
+  "password" : "PASSWORD",
   "storageType" : "VSAN",
   "networkPoolId" : "17a60a94-dc22-422b-a296-be7d614b74cc",
   "networkPoolName" : "pod-wlkdnetworkpool"
@@ -38,7 +38,7 @@ X-Frame-Options: DENY
 The validation may take longer time than the REST call so wait till the validation is complete by polling for the status using the following command:
 
 ```bash
-curl -k -XGET "https://10.10.108.159/v1/hosts/validations/32ad835f-748e-4ed6-b0b9-163c03eab160" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json'
+curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/hosts/validations/32ad835f-748e-4ed6-b0b9-163c03eab160" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
 [output]
 HTTP/1.1 200
@@ -60,10 +60,10 @@ Strict-Transport-Security: max-age=15768000
 
 #3-REST API to commission new host
 Finally commission the host if there are no errors in the validation
-curl -k  'https://10.10.108.159/v1/hosts' -i -u 'admin:HP1nvent!' -X POST -H 'Content-Type: application/json'  -d '[ {
+curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts' -i -u 'admin:PASSWORD' -X POST -H 'Content-Type: application/json'  -d '[ {
   "fqdn" : "vcfwlkd06.vcf.local",
   "username" : "root",
-  "password" : "HP1nvent!",
+  "password" : "PASSWORD",
   "storageType" : "VSAN",
   "networkPoolId" : "17a60a94-dc22-422b-a296-be7d614b74cc",
   "networkPoolName" : "pod-wlkdnetworkpool"
@@ -90,7 +90,7 @@ Capture the ‘id’ of the task from the output for checking the task status.
 
 #4-REST API to Poll for task status for completion
 The REST call for commissioning the host may take longer time so wait until the commissioning task is completed by polling for task status using the following REST call:
-curl -k -XGET "https://10.10.108.159/v1/tasks/fa196af9-8390-4f85-b43a-24aeb5ea4b6c" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json'
+curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/tasks/fa196af9-8390-4f85-b43a-24aeb5ea4b6c" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
 [output]
 HTTP/1.1 200
@@ -121,7 +121,7 @@ REST API for getting the clusters
 
 Use the following REST call for querying the available VCenter clusters.
 
-curl -k -XGET "https://10.10.108.159/v1/clusters" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json'
+curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/clusters" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
 The output is like:
 HTTP/1.1 200
@@ -146,7 +146,7 @@ From the output JSON, capture the ‘id’ for the cluster wlkd-domain1 ( "2996b
 
 Get UNASSIGNED_USEABLE Hosts
 For expanding the VCenter cluster with new hypervisor hosts, get the unassigned commissioned hosts from SDDC manager using the following call:
-curl -k -XGET "https://10.10.108.159/v1/hosts?status=UNASSIGNED_USEABLE" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json'
+curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/hosts?status=UNASSIGNED_USEABLE" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
 The output is like:
 HTTP/1.1 200
@@ -171,7 +171,7 @@ Get the ‘id’ for the available host(s) from the above response. This will be
 
 Validate the host for expand the cluster ‘wlkd-domain1’
 Provide available ‘id’ of unassigned host to this REST API to validate for cluster compatibility. Here is the validation call:
-curl -k -XPOST "https://10.10.108.159/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf/validations/updates" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json' -d '{
+curl -k -XPOST "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf/validations/updates" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json' -d '{
   "clusterExpansionSpec" : {
     "hostSpecs" : [ {
       "id" : "3066c035-c6cc-459d-82ed-8d09bc8bd57d"
@@ -201,7 +201,7 @@ If the ‘resultStatus’ is SUCCEEDED proceed expanding the cluster.
 
 Expand the cluster
 If validation passes then add the host to the cluster to perform the cluster expand operation using the following call:
-curl -k -XPATCH "https://10.10.108.159/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json' -d '{      "clusterExpansionSpec" : {
+curl -k -XPATCH "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json' -d '{      "clusterExpansionSpec" : {
     "hostSpecs" : [ {
       "id" : "3066c035-c6cc-459d-82ed-8d09bc8bd57d"
     } ]
@@ -228,7 +228,7 @@ X-Frame-Options: DENY
 
 
 Poll for status of expand cluster task
-curl -k -XGET "https://10.10.108.159/v1/tasks/dc8101b6-4ae3-4467-a084-7e0bf79664de" -i -u 'admin:HP1nvent!' -H 'Content-Type: application/json'
+curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/tasks/dc8101b6-4ae3-4467-a084-7e0bf79664de" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
 The output is like: 
 HTTP/1.1 200
