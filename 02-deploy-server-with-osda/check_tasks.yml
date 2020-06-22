@@ -1,0 +1,31 @@
+- set_fact:
+    task_uri: "http://{{ osda_ip_address }}:{{ osda_port | default(5000) }}/rest/tasks"
+
+- set_fact:
+    task_uri: "{{ task_uri }}/{{ task_id }}"
+  when: task_id is defined
+
+- name: "Get All Tasks"
+  uri:
+    body_format: json
+    method: GET
+    url: "{{ task_uri }}"
+    user: "{{ osda_username | default(ansible_user) }}"
+    password: "{{ osda_password | default(ansible_user) }}"
+    use_proxy: "{{ use_proxy | default('no') }}"
+  register: task_list
+  no_log: True
+
+#- debug:
+#   msg: "{{ task_list }}"
+
+- name: "Details of tasks:"
+  debug:
+    msg: "{{ item }} "
+  loop: "{{ task_list.json.tasks }}"
+  when: task_id is not defined
+
+- name: "Details of task {{ task_id }}:"
+  debug:
+    msg: "{{ task_list.json.result }}"
+  when: task_id is defined and task_list.json.result is defined
