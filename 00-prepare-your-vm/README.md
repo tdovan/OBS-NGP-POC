@@ -3,9 +3,8 @@
 ## Install tmux, git, anaconda (python env) and other usefull stuff
 
 ```bash
+ssh <IP-OF-CENTOS8.1-VM>
 sudo -i
-ssh-keygen
-ssh <IP-OF-YOUR-VM>
 dnf install epel-release
 dnf makecache
 dnf install ansible
@@ -15,7 +14,6 @@ yum install git
 yum install tmux -y
 echo "set -g mouse on" > /root/.tmux.conf
 tmux new -s obs
-(crt+b + " for new pane)
 (to attach the session afterwards: $ tmux attach -t obs)
 
 cd /tmp/
@@ -28,14 +26,16 @@ conda create --name python3.6 python=3.6
 conda activate python3.6
 ```
 
-## connect the cohesity share
+## Connect the cohesity share where the playbooks are store
 
 ```bash
 mkdir /mnt/obs_share
 mount -t nfs cohesity.obs.hpecic.net:/OBS_SHARE /mnt/obs_share
 ```
 
-## install pip module for the playbooks
+## Installation of the modules
+
+### pip module for the playbooks
 
 ```bash
 pip install jmespath
@@ -43,7 +43,7 @@ pip install pandas
 pip install xlrd
 ```
 
-## Install oneview ansible module and sdk
+### Install oneview ansible module and sdk
 
 ```bash
 mkdir -p /etc/ansible-hpe/
@@ -67,12 +67,12 @@ library         = /etc/ansible-hpe/oneview-ansible/library:/etc/ansible-hpe/hpe3
 module_utils    = /etc/ansible-hpe/oneview-ansible/library/module_utils:/etc/ansible-hpe/hpe3par_ansible_module/Modules/:/root/anaconda3/envs/python3.6/lib/python3.6/site-packages/
 ```
 
-### validate Oneview and Primera ansible has been properly installed
-all playbooks has been put in the cohesity repository
+## Validation of the installation of ansible modules
+All playbooks are stored in the cohesity repository /mnt/obs_share/
 
+### 1st example: retrieve the API version available
 ```bash
 cd /mnt/obs_share/ansible/00-prepare-your-vm/
-1st example: retrieve the API version available
 ansible-playbook -i inventory/localhost oneview_version_facts.yml
 
 note :
@@ -84,20 +84,27 @@ note :
     }
 }
 This means that we force the use of a specific oneview api version between 120 and 1600. This allows backward compatibility.
+```
 
-2nd example: retrieve information about server_profile_template
+### 2nd example: retrieve information about server_profile_template
+
+```bash
 ansible-playbook -i inventory/localhost oneview_server_profile_template_facts.yml
+```
 
-3rd example: create a server profile template for VCF MGMT VSAN
+### 3rd example: create a server profile template for VCF MGMT VSAN
+```bash
 ansible-playbook -i inventory/localhost oneview_create_serverProfileTemplate.yml
 then, go to oneview to display the server profile create: https://synergy.obs.hpecic.net/#/profile-templates/show/
 to delete the template:
 ansible-playbook -i inventory/localhost oneview_delete_serverProfileTemplate.yml
 ```
 
-Other examples are available:
+### Other examples are available:
 
+```bash
 ll /etc/ansible-hpe/oneview-ansible/examples/
 https://developer.hpe.com/
+```
 
 Next step, go to [01-deploy-synergy-from-excel](https://github.com/tdovan/OBS-NGP-POC/tree/master/01-deploy-synergy-from-excel)

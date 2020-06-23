@@ -3,31 +3,30 @@
 convertto-ansibleplaybooks-from-excel.py is a python script that generates ansible playbooks to configure OneView resources and settings from an Excel file.
 The Excel file provides OV setting values and OV resources values.
 The script generates the following ansible playbooks:
-
-   * addresspool.yml
-   * firmwarebundle.yml
-   * scope.yml
-   * timelocale.yml
-   * user.yml
-
-   * ethernetnetwork.yml
-   * fcnetwork.yml
-   * networkset.yml
-   * logicalinterconnectgroup.yml (with uplinkset)
-   * enclosuregroup.yml
-   * logicalenclosure.yml
-   * profiletemplate.yml (with local storage and network connections)
-   * profile.yml (with local storage and network connections)
-
+1. addresspool.yml
+1. firmwarebundle.yml
+1. scope.yml
+1. timelocale.yml
+1. user.yml
+1. ethernetnetwork.yml
+1. fcnetwork.yml
+1. networkset.yml
+1. logicalinterconnectgroup.yml (with uplinkset)
+1. enclosuregroup.yml
+1. logicalenclosure.yml
+1. profiletemplate.yml
+1. profile.yml
 
 ## Quick start
+Careful, thethis is supposed to configure a complete synergy appliance from scratch. For the POC, the synergy has already been configured. so this playbook cannot be executed.
+
+### Generate the playbook
 
 ```bash
 ssh root@10.15.60.206
 conda activate python3.6
 cd /mnt/obs_share/ansible/01-deploy-synergy-from-excel
 
-To generate ansible playbooks
 python convertto-ansibleplaybooks-from-excel.py Synergy-Sample.xlsx
 
 The script will create a hierarchy of folders that mirrors the OneView structure as seen in the GUI.
@@ -40,7 +39,10 @@ The script will create a hierarchy of folders that mirrors the OneView structure
 In addition, the script also generates:
    * a shell script **all_playbooks.sh** that will run all the playbooks in a sequential order
    * a YML file **inventory.yml** that collects WWWN, MAC, WWPN of each server profile
+```
 
+### Run the playbooks
+```bash
 To run ansible playbooks
    * all playbooks
     sh playbooks/all_playbooks.sh 
@@ -48,7 +50,7 @@ To run ansible playbooks
    * individual playbooks
     ansible-playbook playbooks/servers/profile.yml 
     ansible-playbook playbooks/settings/addresspool.yml 
-
+```
 
 ## Notes:
    * Ensure that the **OV instance is up and running**. Otherwise the python script will fail to generate playbooks
