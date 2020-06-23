@@ -4,7 +4,7 @@ This repository contains ready-to-use ansible playbooks and scripts to automate 
 The environnment already contains a VM ready-to-use. If you want a quick start, juts connect to it:
 ```bash
 ssh admin@10.15.60.206
-then go to the use case
+tmux attach -t obs
 ```
 Otherwise, you can follow the instruction here: [00-prepare-your-vm](00-prepare-your-vm/README.md)
 
