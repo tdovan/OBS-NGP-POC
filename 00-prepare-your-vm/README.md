@@ -1,35 +1,44 @@
 # 00-Prepare your vm
 
-## Install anaconda (python env)
+## Install anaconda (python env) and other usefull stuff
 
 ```bash
+sudo -i
+ssh-keygen
 ssh <IP-OF-YOUR-VM>
+yum install tmux -y
+yum install git
+
+echo "set -g mouse on" > /root/.tmux.conf
+tmux new -s obs
+(crt+b + " for new pane)
+(to attach the session afterwards: $ tmux attach -t obs)
+
 cd /tmp/
 curl -O https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
 bash Anaconda3-5.3.1-Linux-x86_64.sh
+
 source ~/.bashrc
 conda info
-pip install jmespath
-conda create --name py3.6 python=3.6
-conda activate py3.6
+conda create --name python3.6 python=3.6
+conda activate python3.6
 ```
 
 ## Install oneview ansible module and sdk
 
 ```bash
-mkdir -p ~/workspace/github
-add oneview-sdk
+mkdir -p /etc/hpe-ansible/
+cd /etc/hpe-ansible/
 pip install hpOneView
-cd ~/workspace/github
 git clone https://github.com/HewlettPackard/oneview-ansible.git
-cd oneview-ansible
+cd /etc/hpe-ansible/oneview-ansible/
 pip install -r requirements.txt
+pip install jmespath
 ```
 
 ### Install Primera ansible module and sdk
 
 ```bash
-add 3par-sdk
 pip install hpe3par-sdk
 cd ~/workspace/github
 git clone https://github.com/HewlettPackard/hpe3par_ansible_module
