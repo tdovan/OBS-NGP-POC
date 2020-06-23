@@ -6,6 +6,13 @@ OSDA stands for Operating System Deployment Automation. It allows :
 
 It is developed by HPE and and free of charge.
 
+The following diagram show the flow for provisioning a node with primera SAN on FC
+![ansible-playbooks-use-cases](images/osda-flow-primera.jpg)
+
+The following diagram show the flow for provisioning a node with VSAN on D3940 JBOD
+![ansible-playbooks-use-cases](images/osda-flow-d3940.jpg)
+
+
 ## Quick start
 
 ### Choose the server to deploy
