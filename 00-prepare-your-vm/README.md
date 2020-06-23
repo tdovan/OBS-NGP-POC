@@ -71,7 +71,8 @@ module_utils    = /etc/ansible-hpe/oneview-ansible/library/module_utils:/etc/ans
 all playbooks has been put in the cohesity repository
 
 ```bash
-cd /mnt/obs_share/00-prepare-your-vm/
+cd /mnt/obs_share/ansible/00-prepare-your-vm/
+1st example: retrieve the API version available
 ansible-playbook -i inventory/localhost oneview_version_facts.yml
 
 note :
@@ -84,7 +85,17 @@ note :
 }
 This means that we force the use of a specific oneview api version between 120 and 1600. This allows backward compatibility.
 
-- in inventory/localhost: we set the ansible_python_interpreter as we are using conda env
+2nd example: retrieve information about server_profile_template
+ansible-playbook -i inventory/localhost oneview_server_profile_template_facts.yml
+
+3rd example: create a server profile template for VCF MGMT VSAN
+ansible-playbook -i inventory/localhost oneview_create_serverProfileTemplate.yml
+then, go to oneview to display the server profile create: https://synergy.obs.hpecic.net/#/profile-templates/show/
 ```
 
-next step, go to [02-deploy-server-with-osda](https://github.com/tdovan/OBS-NGP-POC/tree/master/02-deploy-server-with-osda)
+Other examples are available:
+ll /etc/ansible-hpe/oneview-ansible/examples/
+https://developer.hpe.com/
+
+
+Next step, go to [02-deploy-server-with-osda](https://github.com/tdovan/OBS-NGP-POC/tree/master/02-deploy-server-with-osda)
