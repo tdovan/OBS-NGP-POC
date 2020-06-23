@@ -1,13 +1,69 @@
 # 03-deploy-vcf-node
-!! This part is still work in progress and is not ready to be run agains the platform !!
+This part is still work in progress and is not ready to be run agains the platform. Parsing the API json output (https://code.vmware.com/apis/921/vmware-cloud-foundation) is easier with https://jsoneditoronline.org/
 
+---
 This step describe the flow to add a host in VCF.
 The flow is composed of 3 steps:
 1. validation of the node
 2. commision the node
 3. add host to a VI cluser
 
+## 0-Retrieve a SDDC token
+```bash
+curl 'https://10.15.61.36/v1/tokens' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+  "username" : "tdovan@obs.hpecic.net",
+  "password" : "PASSWORD"
+}' --insecure
+
+#[output]
+{"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3MWE5MDUwOC1jZjMzLTQzODYtYmI0MC1lM2VkNDVhMzQwMTEiLCJpYXQiOjE1OTI5MjQ2OTksInN1YiI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsImlzcyI6InZjZi1hdXRoIiwiYXVkIjoic2RkYy1zZXJ2aWNlcyIsIm5iZiI6MTU5MjkyNDY5OSwiZXhwIjoxNTkyOTI4Mjk5LCJ1c2VyIjoidGRvdmFuQG9icy5ocGVjaWMubmV0IiwibmFtZSI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsInNjb3BlIjpbIkJBQ0tVUF9DT05GSUdfUkVBRCIsIkNSRURFTlRJQUxfUkVBRCIsIlVTRVJfV1JJVEUiLCJPVEhFUl9XUklURSIsIkJBQ0tVUF9DT05GSUdfV1JJVEUiLCJPVEhFUl9SRUFEIiwiVVNFUl9SRUFEIiwiQ1JFREVOVElBTF9XUklURSJdfQ.4W1MFWyEWGuYwHr57QjixPf5Btk0skdf5b3b82wMY3g","refreshToken":{"id":"fb13d890-6527-43ac-a9cc-13a995e34d04"}}
+```
+
+## 0.1-get a network pool
+```bash
+curl 'https://10.15.61.36/v1/network-pools' -i -X GET \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxZGY1YjJlOS0xNTM1LTRiNjktYWZiNS0yOWVjNmZmMTA1ZTIiLCJpYXQiOjE1OTI5MjQxOTgsInN1YiI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsImlzcyI6InZjZi1hdXRoIiwiYXVkIjoic2RkYy1zZXJ2aWNlcyIsIm5iZiI6MTU5MjkyNDE5OCwiZXhwIjoxNTkyOTI3Nzk4LCJ1c2VyIjoidGRvdmFuQG9icy5ocGVjaWMubmV0IiwibmFtZSI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsInNjb3BlIjpbIkJBQ0tVUF9DT05GSUdfUkVBRCIsIkNSRURFTlRJQUxfUkVBRCIsIlVTRVJfV1JJVEUiLCJPVEhFUl9XUklURSIsIkJBQ0tVUF9DT05GSUdfV1JJVEUiLCJPVEhFUl9SRUFEIiwiVVNFUl9SRUFEIiwiQ1JFREVOVElBTF9XUklURSJdfQ.RTPgABaNS14ZyXBaItQ2Upq8UXQdasDfstlNFKIqHf8' --insecure
+
+#[output]
+{"elements":[{"id":"1d04005f-96ba-468a-97ab-c97938731953","name":"obs-m01-np01","networks":[{"id":"6d5f885f-812f-41b9-8bd7-9e53a3040153"},{"id":"3e492a50-dc8c-4add-8ffd-a6ee9ff632b3"}]},{"id":"ee52b653-745c-49d4-ab69-bb1d6a90a19c","name":"obs-m01-np01-primera","networks":[{"id":"48de5e33-76f8-43f2-a569-4addceeefd5f"}]}]}
+
+```
+
+## 0.2-commision the host
+
+```bash
+curl 'https://10.15.61.36/v1/hosts/validations' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxZGY1YjJlOS0xNTM1LTRiNjktYWZiNS0yOWVjNmZmMTA1ZTIiLCJpYXQiOjE1OTI5MjQxOTgsInN1YiI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsImlzcyI6InZjZi1hdXRoIiwiYXVkIjoic2RkYy1zZXJ2aWNlcyIsIm5iZiI6MTU5MjkyNDE5OCwiZXhwIjoxNTkyOTI3Nzk4LCJ1c2VyIjoidGRvdmFuQG9icy5ocGVjaWMubmV0IiwibmFtZSI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsInNjb3BlIjpbIkJBQ0tVUF9DT05GSUdfUkVBRCIsIkNSRURFTlRJQUxfUkVBRCIsIlVTRVJfV1JJVEUiLCJPVEhFUl9XUklURSIsIkJBQ0tVUF9DT05GSUdfV1JJVEUiLCJPVEhFUl9SRUFEIiwiVVNFUl9SRUFEIiwiQ1JFREVOVElBTF9XUklURSJdfQ.RTPgABaNS14ZyXBaItQ2Upq8UXQdasDfstlNFKIqHf8' \
+    -d '[ {
+  "fqdn" : "esx11.vcf.obs.hpecic.net",
+  "username" : "root",
+  "password" : "Welcome#123",
+  "storageType" : "VMFS_FC",
+  "networkPoolId" : "48de5e33-76f8-43f2-a569-4addceeefd5f",
+  "networkPoolName" : "obs-m01-np01-primera"
+}, {
+  "fqdn" : "esx12.vcf.obs.hpecic.net",
+  "username" : "root",
+  "password" : "Welcome#123",
+  "storageType" : "VMFS_FC",
+  "networkPoolId" : "1ff2838a-1983-4747-a94d-d30b2d13a973",
+  "networkPoolName" : "obs-m01-np01-primera"
+} ]'  --insecure
+```
+
+--- 
+next call is based on VCF 3.9
+--- 
+
+
+
 ## 1-Validation of the node
+
 ```bash
 ### Validate if the host is ready for commissioning
 export VCF_USERNAME=tdovan@obs.hpecic.net
