@@ -1,21 +1,33 @@
 # 03-deploy-vcf-node
+!! This part is still work in progress and is not ready to be run agains the platform !!
 
-## 1-REST API for validating new host before commissioning
-Validate if the host is ready for commissioning.
+This step describe the flow to add a host in VCF.
+The flow is composed of 3 steps:
+1. validation of the node
+2. commision the node
+3. add host to a VI cluser
 
+## 1-Validation of the node
 ```bash
-curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts/validations/commissions' -i -u 'admin:PASSWORD' -X POST \
+### Validate if the host is ready for commissioning
+export VCF_USERNAME=tdovan@obs.hpecic.net
+export VCF_PASSWORD=ZZZZ
+
+networkpoolId for VSAN = obs-m01-np01 / 1d04005f-96ba-468a-97ab-c97938731953
+networkpoolId for VSAN = obs-m01-np01-primera / ee52b653-745c-49d4-ab69-bb1d6a90a19c
+
+curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts/validations/commissions' -i -u '$VCF_USERNAME:$VCF_PASSWORD' -X POST \
     -H 'Content-Type: application/json' \
     -d '[ {
-  "fqdn" : "vcfwlkd06.vcf.local",
-  "username" : "root",
-  "password" : "PASSWORD",
+  "fqdn" : "esx11.vcf.obs.hpecic.net",
+  "username" : "$VCF_USERNAME",
+  "password" : "$VCF_PASSWORD",
   "storageType" : "VSAN",
-  "networkPoolId" : "17a60a94-dc22-422b-a296-be7d614b74cc",
-  "networkPoolName" : "pod-wlkdnetworkpool"
+  "networkPoolId" : "1d04005f-96ba-468a-97ab-c97938731953",
+  "networkPoolName" : "obs-m01-np01"
 }]'
 
-[output]
+### [output]
 HTTP/1.1 202
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 08:13:38 GMT
@@ -31,16 +43,19 @@ Expires: 0
 X-Frame-Options: DENY
 
 {"id":"32ad835f-748e-4ed6-b0b9-163c03eab160","description":"Validate input specification to commission one or more hosts to VMware Cloud Foundation","executionStatus":"IN_PROGRESS","validationChecks":[{"description":"Validating input specification","resultStatus":"UNKNOWN"},{"description":"Validating host vcfwlkd06.vcf.local","resultStatus":"UNKNOWN"}]}
+
+# tips: if your terminal get bad, just type
+reset
 ```
 
-#2-REST API to poll for hosts validation status
+## 1.1-Polling for hosts validation status
 
 The validation may take longer time than the REST call so wait till the validation is complete by polling for the status using the following command:
 
 ```bash
 curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/hosts/validations/32ad835f-748e-4ed6-b0b9-163c03eab160" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
-[output]
+## [output]
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 08:44:14 GMT
@@ -58,8 +73,11 @@ Strict-Transport-Security: max-age=15768000
 {"id":"32ad835f-748e-4ed6-b0b9-163c03eab160","description":"Validate input specification to commission one or more hosts to VMware Cloud Foundation","executionStatus":"COMPLETED","resultStatus":"SUCCEEDED","validationChecks":[{"description":"Validating input specification","resultStatus":"SUCCEEDED"}]}
 ```
 
-#3-REST API to commission new host
+## 2-API to commission new host
+
 Finally commission the host if there are no errors in the validation
+
+```bash
 curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts' -i -u 'admin:PASSWORD' -X POST -H 'Content-Type: application/json'  -d '[ {
   "fqdn" : "vcfwlkd06.vcf.local",
   "username" : "root",
@@ -69,7 +87,7 @@ curl -k  'https://sddc01.vcf.obs.hpecic.net/v1/hosts' -i -u 'admin:PASSWORD' -X 
   "networkPoolName" : "pod-wlkdnetworkpool"
 }]'
 
-[output]
+# [output]
 HTTP/1.1 202
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 08:26:54 GMT
@@ -86,13 +104,17 @@ X-Frame-Options: DENY
 
 {"id":"fa196af9-8390-4f85-b43a-24aeb5ea4b6c","status":"IN_PROGRESS"}
 
-Capture the ‘id’ of the task from the output for checking the task status.
+# Capture the ‘id’ of the task from the output for checking the task status.
+```
 
-#4-REST API to Poll for task status for completion
-The REST call for commissioning the host may take longer time so wait until the commissioning task is completed by polling for task status using the following REST call:
+## 3-Poll for task status for completion
+
+```bash
+# The REST call for commissioning the host may take longer time so wait until the commissioning task is completed by polling for task status using the following REST call:
+
 curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/tasks/fa196af9-8390-4f85-b43a-24aeb5ea4b6c" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
-[output]
+#[output]
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 08:35:24 GMT
@@ -113,17 +135,18 @@ Strict-Transport-Security: max-age=15768000
 
 Poll until ‘status’ is set to SUCCESSFUL.
 
+```
 
-#4-REST API for expanding existing cluster
+## 4-REST API for expanding existing cluster
 Add commissioned host to an existing VCenter cluster to expand the capacity
 
-REST API for getting the clusters
-
-Use the following REST call for querying the available VCenter clusters.
+```bash
+# REST API for getting the clusters
+# Use the following REST call for querying the available VCenter clusters.
 
 curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/clusters" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
-The output is like:
+#[output]:
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 09:04:29 GMT
@@ -143,12 +166,16 @@ Strict-Transport-Security: max-age=15768000
 The above result contains 2 clusters details in JSON format.
 From the output JSON, capture the ‘id’ for the cluster wlkd-domain1 ( "2996b07d-8143-4f06-ab49-028432d039cf" ).
 
+```
 
-Get UNASSIGNED_USEABLE Hosts
+## 4.1 - Get UNASSIGNED_USEABLE Hosts
+
 For expanding the VCenter cluster with new hypervisor hosts, get the unassigned commissioned hosts from SDDC manager using the following call:
+
+```bash
 curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/hosts?status=UNASSIGNED_USEABLE" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
-The output is like:
+[output]
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 09:35:06 GMT
@@ -166,11 +193,14 @@ Strict-Transport-Security: max-age=15768000
 {"elements":[{"id":"3066c035-c6cc-459d-82ed-8d09bc8bd57d","esxiVersion":"6.7.0-13006603","fqdn":"vcfwlkd06.vcf.local","hardwareVendor":"HPE","hardwareModel":"Synergy 480 Gen10","ipAddresses":[{"ipAddress":"10.10.108.189","type":"MANAGEMENT"}],"cpu":{"frequencyMHz":62253.7421875,"cores":24,"cpuCores":[{"frequencyMHz":2593.90625,"model":"intel","manufacturer":"Intel(R) Xeon(R) Gold 6126 CPU @ 2.60GHz"},{"frequencyMHz":2593.906005859375,"model":"intel","manufacturer":"Intel(R) Xeon(R) Gold 6126 CPU @ 2.60GHz"}]},"memory":{"totalCapacityMB":261789.125},"storage":{"totalCapacityMB":0.0,"disks":[{"capacityMB":763097.8125,"diskType":"FLASH"},{"capacityMB":763097.8125,"diskType":"FLASH"},{"capacityMB":763097.8125,"diskType":"FLASH"},{"capacityMB":381554.09375,"diskType":"FLASH"}]},"physicalNics":[{"deviceName":"vmnic0","macAddress":"b6:45:eb:80:0c:1b"},{"deviceName":"vmnic1","macAddress":"b6:45:eb:80:0c:1c"}],"status":"UNASSIGNED_USEABLE"}]}[root@localhost ~]#
 
 Get the ‘id’ for the available host(s) from the above response. This will be used for REST call for expanding the cluster.
+```
 
 
+## 4.2 - Validate the host for expand the cluster ‘wlkd-domain1’
 
-Validate the host for expand the cluster ‘wlkd-domain1’
 Provide available ‘id’ of unassigned host to this REST API to validate for cluster compatibility. Here is the validation call:
+
+```bash
 curl -k -XPOST "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf/validations/updates" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json' -d '{
   "clusterExpansionSpec" : {
     "hostSpecs" : [ {
@@ -179,7 +209,7 @@ curl -k -XPOST "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f06
   }
 }'
 
-The output is like:
+[output]
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 09:39:07 GMT
@@ -199,8 +229,13 @@ Strict-Transport-Security: max-age=15768000
 
 If the ‘resultStatus’ is SUCCEEDED proceed expanding the cluster.
 
-Expand the cluster
+```
+
+## 5-Expand the cluster
+
 If validation passes then add the host to the cluster to perform the cluster expand operation using the following call:
+
+```bash
 curl -k -XPATCH "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f06-ab49-028432d039cf" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json' -d '{      "clusterExpansionSpec" : {
     "hostSpecs" : [ {
       "id" : "3066c035-c6cc-459d-82ed-8d09bc8bd57d"
@@ -208,7 +243,7 @@ curl -k -XPATCH "https://sddc01.vcf.obs.hpecic.net/v1/clusters/2996b07d-8143-4f0
   }
 }'
 
-The output is like:
+[output]
 HTTP/1.1 202
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 09:43:42 GMT
@@ -226,11 +261,13 @@ X-Frame-Options: DENY
 
 {"id":"dc8101b6-4ae3-4467-a084-7e0bf79664de","name":"Adding new host(s) to cluster","status":"IN_PROGRESS","creationTimestamp":"2019-08-29T09:43:41.989Z"}[root@localhost ~]#
 
+```
+### 5.1 Poll for status of expand cluster task
 
-Poll for status of expand cluster task
+```bash
 curl -k -XGET "https://sddc01.vcf.obs.hpecic.net/v1/tasks/dc8101b6-4ae3-4467-a084-7e0bf79664de" -i -u 'admin:PASSWORD' -H 'Content-Type: application/json'
 
-The output is like: 
+[output]
 HTTP/1.1 200
 Server: nginx/1.15.3
 Date: Thu, 29 Aug 2019 09:45:41 GMT
@@ -252,7 +289,7 @@ Strict-Transport-Security: max-age=15768000
 If ‘status’ is SUCCESSFUL then the host must appear in VCenter like this:
 ![results](images/add-vcf-node-results.png)
 
-
+```
 
 
 Next step, go to [04-vcf-synergy-fullstack](https://github.com/tdovan/OBS-NGP-POC/tree/master/04-vcf-synergy-fullstack)
