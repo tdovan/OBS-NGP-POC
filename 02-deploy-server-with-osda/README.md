@@ -22,9 +22,9 @@ conda activate python3.6
 cd /mnt/obs_share/ansible/02-deploy-server-with-osda
 
 ### to deploy 1 ESXI SY660 node:
-change the json input file for the nodes be created :
+# change the json input file for the nodes be created :
 vi inventory/host_vars/OSDA.yml
-"data/deploy-1nodesSY660-primera-bfs.json"
+deploy_json_file: "data/deploy-1nodesSY660-primera-bfs.json"
 
 ### to deploy 4 VCF MGMT SY480 nodes:
 deploy_json_file: "data/deploy-vcf-mgmt-4nodes.json"
