@@ -8,6 +8,8 @@ tmux attach -t obs
 ```
 Otherwise, you can follow the instruction here: [00-prepare-your-vm](00-prepare-your-vm/README.md)
 
+![ansible-playbooks-use-cases](images/ansible-playbook.jpg)
+
 ## Use cases
 - [01-deploy-synergy-from-excel](01-deploy-synergy-from-excel/README.md)
 Deploy Synergy fromwith input from a excel file. This playbooks can used to automate the deployment of a ne synergy. This is not applicable for the POC as the platform has already been configured. 
@@ -21,7 +23,6 @@ Deploy a server from a template + install the OS + commision the node in vcf + a
 
 
 ![General workflow](images/general-workflow.png)
-
 ## Miscellanous
 
 ```
