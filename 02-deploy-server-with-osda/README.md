@@ -41,6 +41,7 @@ deploy_json_file: "data/deploy-vcf-fullstack-12nodes.json"
 
 ### Deploy the servers
 ```bash
+cd /mnt/obs_share/ansible/02-deploy-server-with-osda
 ansible-playbook -i inventory/OSDA osda_deploy_server.yml
 ```
 
