@@ -80,4 +80,4 @@ This means that we force the use of a specific oneview api version between 120 a
 - in inventory/localhost: we set the ansible_python_interpreter as we are using conda env
 ```
 
-next step, go to [02-deploy-server-with-osda](02-deploy-server-with-osda/README.md)
+next step, go to [02-deploy-server-with-osda](https://github.com/tdovan/OBS-NGP-POC/tree/master/02-deploy-server-with-osda)
