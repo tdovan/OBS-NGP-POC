@@ -172,7 +172,7 @@ sudo yum makecache
 sudo yum install powershell
 pwsh
 PS /root> Install-Module hponeview.500
-PS /root> $az1=Connect-HPOVMgmt -Appliance 10.7.9.20 -UserName admin -Password obs@cicGVA1234!
+PS /root> $az1=Connect-HPOVMgmt -Appliance $IP -UserName admin -Password PASSWORD
 PS /root> Get-HPOVServer -ApplianceConnection $az1 | Get-HPOVAlert -State active | Set-HPOVAlert -Cleared
 
 PS /root> Get-HPOVEnclosure
@@ -186,22 +186,8 @@ Reset-HPOVEnclosureDevice -Component Device -DeviceID 6 -Enclosure $encl2 -EFuse
 Reset-HPOVEnclosureDevice -Component Device -DeviceID 7 -Enclosure $encl2 -EFuse
 
 
-curl -k -i -H "accept: application/json" -H "content-type: application/json" -d '{"userName":"admin","password":"obs@cicGVA1234!"}' -X POST https://synergy.obs.hpecic.net/rest/login-sessions
+curl -k -i -H "accept: application/json" -H "content-type: application/json" -d '{"userName":"admin","password":"PASSWORD"}' -X POST https://synergy.obs.hpecic.net/rest/login-sessions
 curl -k -H "accept: application/json" -H "content-type: application/json" -H "auth: LTI3MTExODk0MTc5Ogwh9xtVHRPsskRskrZpG13qA2mmpGmV" -X GET https://synergy.obs.hpecic.net/rest/server-hardware -o server.xml
 
 https://monpostit.fr/billet/serveur/incidents-serveur/efuse-reset-sur-une-lame-hpe-synergy/
 ```
-
-## Detailed Step-by-Step
-
-I have break down each steps:
-
-- [00-deploy-hardware](00-deploy-hardware/README.md)
-- [01-create-golden-image](01-create-golden-image/README.md)
-- [02-create-oneview-server-template](02-create-oneview-server-template/README.md)
-- [03-provision-bare-metal-server](03-provision-bare-metal-server/README.md)
-- [04-deploy-kubespray](04-deploy-kubespray/README.md)
-- [05-customize-kubernetes](05-customize-kubernetes/README.md)
-  - Istio
-  - Calico
-  - Velero
