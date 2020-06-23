@@ -91,9 +91,12 @@ ansible-playbook -i inventory/localhost oneview_server_profile_template_facts.ym
 3rd example: create a server profile template for VCF MGMT VSAN
 ansible-playbook -i inventory/localhost oneview_create_serverProfileTemplate.yml
 then, go to oneview to display the server profile create: https://synergy.obs.hpecic.net/#/profile-templates/show/
+to delete the template:
+ansible-playbook -i inventory/localhost oneview_delete_serverProfileTemplate.yml
 ```
 
 Other examples are available:
+
 ll /etc/ansible-hpe/oneview-ansible/examples/
 https://developer.hpe.com/
 
