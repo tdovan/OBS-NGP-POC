@@ -35,6 +35,14 @@ mkdir /mnt/obs_share
 mount -t nfs cohesity.obs.hpecic.net:/OBS_SHARE /mnt/obs_share
 ```
 
+## install pip module for the playbooks
+
+```bash
+pip install jmespath
+pip install pandas
+pip install xlrd
+```
+
 ## Install oneview ansible module and sdk
 
 ```bash
@@ -44,7 +52,6 @@ pip install hpOneView
 git clone https://github.com/HewlettPackard/oneview-ansible.git
 cd /etc/ansible-hpe/oneview-ansible/
 pip install -r requirements.txt
-pip install jmespath
 ```
 
 ### Install Primera ansible module and sdk
