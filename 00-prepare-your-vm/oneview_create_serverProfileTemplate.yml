@@ -1,0 +1,83 @@
+---
+- name:  Creating server profile templates from csv
+  hosts: all
+  connection: local
+  vars:
+     config: "{{ playbook_dir }}/oneview_config.json"
+  tasks:
+     - name: Get uri of serverhardware type SY 480 Gen10 1       
+       oneview_server_hardware_type_facts:           
+         config:   '{{ config }}'                  
+         name:     SY 480 Gen10 1                                
+     - set_fact:                                     
+         var_SY_480_Gen10_1_uri    :       '{{server_hardware_types[0].uri}}' 
+
+
+     - name: Create server profile template HPE Synergy 480 Gen10 with Local Boot for RSOE Template       
+       oneview_server_profile_template:              
+         config:     '{{ config }}'                
+         state:      present                         
+         data:                                       
+             name:                       'SPT-VCF40-VSAN-created-with-ansible'
+             type:                       'ServerProfileTemplateV8'      
+             description:                'VCF template for MANAGEMENT-NODE and VSAN - created automatically with ansible'
+             serverProfileDescription:   'VCF template for MANAGEMENT-NODE and VSAN - created automatically with ansible'
+             serverHardwareTypeUri:        '{{var_SY_480_Gen10_1_uri}}'            
+             enclosureGroupName:           SynFrame20-30_EG            
+             affinity:                     Bay            
+             hideUnusedFlexNics:           True            
+             wwnType:                     Virtual         
+             macType:                     Virtual         
+             serialNumberType:            Virtual         
+             bootMode:                               
+                 manageMode:              True         
+                 mode:                    UEFIOptimized         
+                 secureBoot:                      
+                 pxeBootPolicy:                   
+             boot:                                    
+                 manageBoot:              True          
+                 order:                               
+                     - HardDisk                         
+             bios:                                    
+                 manageBios:               True         
+                 overriddenSettings:                                    
+                 - id:         MemPatrolScrubbing              
+                   value:      Disabled                 
+
+     - name: Add network connection 'Management'  to server profile or template HPE Synergy 480 Gen10 with Local Boot for RSOE Template     
+       oneview_server_profile_template:          
+         config:     '{{ config }}'                
+         state:      present                         
+         data:                                       
+             name:                          'SPT-VCF40-VSAN-created-with-ansible'
+             type:                          'ServerProfileTemplateV8'   
+             connectionSettings:                     
+                 manageConnections:          True      
+                 connections:                        
+                     - id:                   1      
+                       portId:               Auto      
+                       name:                 CN-NS-1
+                       functionType:         Ethernet      
+                       networkName:          VCF Networks
+                       requestedMbps:        4000      
+                     - id:                   2      
+                       portId:               Auto      
+                       name:                 CN-NS-2
+                       functionType:         Ethernet      
+                       networkName:          VCF Networks
+                       requestedMbps:        4000      
+                     - id:                   3
+                       portId:               Auto      
+                       name:                 SAN-FAB-A
+                       functionType:         FibreChannel      
+                       networkName:          San Fabric 1      
+                       requestedMbps:        16000      
+                     - id:                   4      
+                       portId:               Auto      
+                       name:                 SAN-FAB-B
+                       functionType:         FibreChannel      
+                       networkName:          San Fabric 2     
+                       requestedMbps:        16000      
+                                                     
+       delegate_to: localhost                    
+
