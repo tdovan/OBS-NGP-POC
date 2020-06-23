@@ -253,3 +253,6 @@ If ‘status’ is SUCCESSFUL then the host must appear in VCenter like this:
 ![results](images/add-vcf-node-results.png)
 
 
+
+
+Next step, go to [04-vcf-synergy-fullstack](https://github.com/tdovan/OBS-NGP-POC/tree/master/04-vcf-synergy-fullstack)

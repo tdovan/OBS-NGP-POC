@@ -19,3 +19,5 @@ then run
 
 ansible-playbook -i inventory/OSDA osda_deploy_server.yml
 ```
+
+Next step, go to [03-deploy-vcf-node](https://github.com/tdovan/OBS-NGP-POC/tree/master/03-deploy-vcf-node)

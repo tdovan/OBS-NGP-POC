@@ -61,3 +61,5 @@ The Examples-Playbooks.zip provide all playbooks generated from the Excel sample
 
 Enjoy!
 (thanks to DungKHoang for his great work)
+
+Next step, go to [02-deploy-server-with-osda](https://github.com/tdovan/OBS-NGP-POC/tree/master/02-deploy-server-with-osda)

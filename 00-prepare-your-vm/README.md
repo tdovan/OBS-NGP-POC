@@ -97,5 +97,4 @@ Other examples are available:
 ll /etc/ansible-hpe/oneview-ansible/examples/
 https://developer.hpe.com/
 
-
-Next step, go to [02-deploy-server-with-osda](https://github.com/tdovan/OBS-NGP-POC/tree/master/02-deploy-server-with-osda)
+Next step, go to [01-deploy-synergy-from-excel](https://github.com/tdovan/OBS-NGP-POC/tree/master/01-deploy-synergy-from-excel)
