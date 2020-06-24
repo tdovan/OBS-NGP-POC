@@ -139,4 +139,43 @@ Partitions spanned (on "disks"):
 Is Native Snapshot Capable: NO
 
 you're done !
+```
+
+### Create a custom ESXi70 for Synergy SY480 CNA6820 (FCoE support)
+During the POC setup, the HPE OEM ESXi7.0 did not have FCoE driver for CNA 6820. So we build it manually.
+But since 23 june 2020, the new iso VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso
+ (build 16324942) now have the official support of the driver:
+MRVL-E4-CNA-Driver-Bundle--5.0.189-1OEM.700.1.0.15525992
+ISO can be directly download at: 
+https://my.vmware.com/group/vmware/downloads/details?downloadGroup=OEM-ESXI70-HPE&productId=974 
+https://www.hpe.com/us/en/servers/hpe-esxi.html
+
+Although HPE now support the good  driver, here's the procedure used to create the custom iso.
+
+```bash
+CNA 6820 = Marvell QL45604 (https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=a00091476en_us) = firmware 08.50.44 (with the HPE Synergy Custom SPP 202005 2020 05 15)
+FCoE = qedf
+
+Qlogic driver: http://driverdownloads.qlogic.com/QLogicDriverDownloads_UI/SearchByOs.aspx?ProductCategory=322&OsCategory=6&Os=167&OsCategoryName=VMware&ProductCategoryName=Converged+Network+Adapters&OSName=VMware+ESX%2FESXi
+
+$ pwsh
+PowerShell ISE (runas administrator)
+PS /root> Install-Module -Name VMware.PowerCLI –AllowClobber
+Update-Module VMware.PowerCLI
+Add-EsxSoftwareDepot -DepotUrl "/mnt/obs_share/vmware/ESXi-7.0/vmware-official/VMware-ESXi-7.0.0-15843807-depot.zip"
+Add-EsxSoftwareDepot -DepotUrl "/mnt/obs_share/vmware/ESXi-7.0/hpe-custom/vibs/MRVL-E4-CNA-Driver-Bundle_5.0.189-1OEM.700.1.0.15525992_16014678.zip"
+New-EsxImageProfile -CloneProfile "ESXi-7.0.0-15843807-standard" -name "ESXi-7.0.0-15843807-standard-custom" -Vendor "HPE"
+
+Get-EsxSoftwarePackage | Select-String -Pattern "qed"
+
+Get-EsxSoftwarePackage -Name qedrntv -Vendor VMW | Remove-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+Get-EsxSoftwarePackage -Name qedentv -Vendor VMW | Remove-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+
+Get-EsxSoftwarePackage -Name qedentv -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+Get-EsxSoftwarePackage -Name qedf -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+Get-EsxSoftwarePackage -Name qedi -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+Get-EsxSoftwarePackage -Name qedrntv -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
+
+Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToIso -FilePath "/mnt/obs_share/vmware/ESXi-7.0/hpe-custom/HPE-ESXi-7.0-custom.2.iso"
+Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToBundle -FilePath "/mnt/obs_share/vmware/ESXi-7.0/hpe-custom/HPE-ESXi-7.0-custom.2.zip"
 ---
