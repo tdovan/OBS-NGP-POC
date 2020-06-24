@@ -104,60 +104,8 @@ Get-Module -Name VMware* -ListAvailable | Select Name,Version,ModuleBase
 >>>> GOOD Driver Qlogic : https://my.vmware.com/group/vmware/details?downloadGroup=DT-ESX70-MARVELL-QEDENTV-50189&productId=974&download=true&fileId=e303fb88e2f295bf367c3c6983bb0cb7&secureParam=90100efdd4a5ed0e35ec7917aeb88cdf&uuId=19a3ab7c-a465-495f-b8d1-5b86fb1166e1&downloadType=
 
 
-find the esxi boot disk
-ls -la /bootbank
-vmkfstools -P /vmfs/volumes/10096f8b-d044b0e9-8697-0c6ccda4bf06
-[root@osda-nolocalstorage:/tmp] vmkfstools -P /vmfs/volumes/10096f8b-d044b0e9-8697-0c6ccda4bf06
-vfat-0.04 (Raw Major Version: 0) file system spanning 1 partitions.
-File system label (if any): BOOTBANK2
-Mode: private
-Capacity 4293591040 (65515 file blocks * 65536), 4120444928 (62873 blocks) avail, max supported file size 0
-Disk Block Size: 512/0/0
-UUID: 10096f8b-d044b0e9-8697-0c6ccda4bf06
-Partitions spanned (on "disks"):
-        naa.600508b1001c7ba8871f691e550a30fc:6
-Is Native Snapshot Capable: NO
 
 
 
-#### cleanup the cloudbuilder
-```bash
-https://kb.vmware.com/s/article/75172
-ssh cloud-builder
-vi /data/pgdata/pg_hba.conf
-uncomment the line
-local   replication     all                                     trust
-
-systemctl restart postgres
-sudo psql -U postgres -d bringup -h /home/postgresql/
-delete from execution;
-delete from "Resource";
-\q
-```
-### Synergy : efuse a blade
-
-```bash
-curl https://packages.microsoft.com/config/rhel/7/prod.repo |  sudo tee /etc/yum.repos.d/microsoft.repo
-sudo yum makecache
-sudo yum install powershell
-pwsh
-PS /root> Install-Module hponeview.500
-PS /root> $az1=Connect-HPOVMgmt -Appliance $IP -UserName admin -Password PASSWORD
-PS /root> Get-HPOVServer -ApplianceConnection $az1 | Get-HPOVAlert -State active | Set-HPOVAlert -Cleared
-
-PS /root> Get-HPOVEnclosure
-$encl1 = Get-HPOVEnclosure -Name "CZ20040WV4-frame1"
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 10 -Enclosure $encl1 -EFuse
-Reset-HPOVEnclosureDevice -Enclosure $enclosure -Component Device -DeviceID 1
-
-PS /root> Get-HPOVEnclosure
-$encl2 = Get-HPOVEnclosure -Name "CZ20040WYK-frame2"
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 6 -Enclosure $encl2 -EFuse
-Reset-HPOVEnclosureDevice -Component Device -DeviceID 7 -Enclosure $encl2 -EFuse
 
 
-curl -k -i -H "accept: application/json" -H "content-type: application/json" -d '{"userName":"admin","password":"PASSWORD"}' -X POST https://synergy.obs.hpecic.net/rest/login-sessions
-curl -k -H "accept: application/json" -H "content-type: application/json" -H "auth: LTI3MTExODk0MTc5Ogwh9xtVHRPsskRskrZpG13qA2mmpGmV" -X GET https://synergy.obs.hpecic.net/rest/server-hardware -o server.xml
-
-https://monpostit.fr/billet/serveur/incidents-serveur/efuse-reset-sur-une-lame-hpe-synergy/
-```
