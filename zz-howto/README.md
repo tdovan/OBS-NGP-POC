@@ -17,12 +17,13 @@ true | openssl s_client -connect 10.15.60.50:443 -showcerts >/tmp/iloamp-cert.cr
 /usr/lib/vmware-vmafd/bin/dir-cli trustedcert publish --cert /tmp/iloamp-cert.crt
 Certificate pubished successfully
 5. go to vCenter>HPE Hardware Support Manager (HSM) plug-in for VMware vLCM. you should see the SPP. Click on add "VMware ESXi 7.0 Upgrade Pack"
-![HPE HSM SPP](iloamp-hsm-spp.jpg)
 6. go to the vCenter cluster "ClusterForImage" and edit your image.
-![HPE HSM SPP](iloamp-vLCM.jpg)
 
 You're done
 ```
+![HPE HSM SPP](images/iloamp-hsm-spp.jpg)
+![HPE HSM SPP](images/iloamp-vLCM.jpg)
+
 
 ## Display the ToR BGP routing for NSX-T AVN
 The components concerned are:
@@ -30,7 +31,7 @@ The components concerned are:
 - Tor-2: 10.15.66.254
 
 In the Cloud Builder: vcf-ems-deployment-parameter-obs.xlsx/Deploy Parameters, AVN parameters:
-![NSX-T AVN](nsx-avn.jpg)
+![NSX-T AVN](images/nsx-avn.jpg)
 These are the BGP networks craeted in the ToR 1 and 2
 
 ```bash

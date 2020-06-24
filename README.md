@@ -22,6 +22,12 @@ Deploy a server from a template + install the OS + commision the node in vcf + a
 
 ![General workflow](images/general-workflow.png)
 
+## For curious people
+I've added a bunch of playbook that can be leverage for your own use case :
+[zz-ansible-playbooks](https://github.com/tdovan/OBS-NGP-POC/tree/master/zz-ansible-playbooks)
+
+I've also added the tips/howto used to configure the platform [zz-howto](https://github.com/tdovan/OBS-NGP-POC/tree/master/zz-howto)
+
 ## Miscellanous
 
 - [HPE Oneview API](https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.2/cicf-api/en/index.html)
