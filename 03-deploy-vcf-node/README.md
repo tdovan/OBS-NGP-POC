@@ -57,6 +57,12 @@ curl 'https://10.15.61.36/v1/network-pools' -i -X GET \
 #[output]
 {"elements":[{"id":"1d04005f-96ba-468a-97ab-c97938731953","name":"obs-m01-np01","networks":[{"id":"6d5f885f-812f-41b9-8bd7-9e53a3040153"},{"id":"3e492a50-dc8c-4add-8ffd-a6ee9ff632b3"}]},{"id":"ee52b653-745c-49d4-ab69-bb1d6a90a19c","name":"obs-m01-np01-primera","networks":[{"id":"48de5e33-76f8-43f2-a569-4addceeefd5f"}]}]}
 
+
+## 0.2-get a domain
+curl --cacert sddc.cert 'https://sddc01.vcf.obs.hpecic.net/v1/domains' --digest -X GET \
+    -H "Authorization: Bearer ${TOKEN}" | jq '.'
+
+curl --cacert sddc.cert 'https://sddc01.vcf.obs.hpecic.net/v1/domains' -s -X GET     -H "Authorization: Bearer ${TOKEN}" | jq '.elements[] | select(.name=="VI02-Primera") | .id'
 ```
 
 ## 0.2-commision the host
