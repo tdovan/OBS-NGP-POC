@@ -44,11 +44,8 @@ fly -t tutorial login -c http://concourse.obs.hpecic.net:8080/ -u test -p test
 # install vault dev
 vault server -dev
 export VAULT_ADDR='http://127.0.0.1:8200'
-echo "jesbs1VojlxlSF84Qwq3UuZ5+hE8wdO4fyM2pLu+6pA=" > unseal.key
-export VAULT_DEV_ROOT_TOKEN=s.gkj6aDD9bDGx26fipJ1u87iQ
-
-Unseal Key: Vr66CgWJhWIU1Gm/eaz3Nf01ETc8dKeWgZYf6r+LB2g=
-Root Token: s.gkj6aDD9bDGx26fipJ1u87iQ
+echo "$UNSEAL.KET" > unseal.key
+export VAULT_DEV_ROOT_TOKEN=$TOKEN
 
 
 vault status
@@ -92,7 +89,6 @@ https://github.com/orgs/obs-hpe/
 vault write auth/github/config organization=obs-hpe
 vault write auth/github/map/teams/ngp value=default,applications
 
-github vault token: 6fd592c8a23b6443d313577af483e00d81132c2e
 
 ### hands-on tuto
 
