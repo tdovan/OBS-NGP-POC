@@ -41,6 +41,9 @@ mount -t nfs cohesity.obs.hpecic.net:/OBS_SHARE /mnt/obs_share
 pip install jmespath
 pip install pandas
 pip install xlrd
+dnf install npm -y
+npm install -g json2yaml
+
 ```
 
 ### Install oneview ansible module and sdk
@@ -70,8 +73,8 @@ module_utils    = /etc/ansible-hpe/oneview-ansible/library/module_utils:/etc/ans
 ## Validation of the installation of ansible modules
 All playbooks are stored in the cohesity repository /mnt/obs_share/
 
-### 1st example: retrieve the API version available
 ```bash
+### 1st example: retrieve the API version available
 cd /mnt/obs_share/ansible/00-prepare-your-vm/
 ansible-playbook -i inventory/localhost oneview_version_facts.yml
 
@@ -84,20 +87,37 @@ note :
     }
 }
 This means that we force the use of a specific oneview api version between 120 and 1600. This allows backward compatibility.
-```
 
 ### 2nd example: retrieve information about server_profile_template
-
-```bash
+Gather facts for a simple OV server profile template
+ansible-playbook -i inventory/localhost oneview_server_profile_template_facts_simple.yml
+Gather facts for a the entire OV servers objects
 ansible-playbook -i inventory/localhost oneview_server_profile_template_facts.yml
-```
+
 
 ### 3rd example: create a server profile template for VCF MGMT VSAN
-```bash
+Create a OV server profile template: SPT-VCF40-VSAN-created-with-ansible
+
 ansible-playbook -i inventory/localhost oneview_create_serverProfileTemplate.yml
-then, go to oneview to display the server profile create: https://synergy.obs.hpecic.net/#/profile-templates/show/
-to delete the template:
+```
+Then, go to [oneview dashboard](https://synergy.obs.hpecic.net/#/profile-templates/show/) to display the template create
+
+```bash
+then delete the template:
 ansible-playbook -i inventory/localhost oneview_delete_serverProfileTemplate.yml
+
+### 4th example: working with jinja2 template
+cat << EOF > oneview_server_profile_template_example.json.j2
+{{ ansible_facts.ansible_hostname }}
+
+{% for capability in ansible_facts.ansible_system_capabilities %}
+{{ capability }}
+{% endfor %}
+EOF
+
+ansible localhost -m setup -o | sed 's/.*> {/{/g' | json2yaml > facts.yaml
+ansible localhost -m template -a "src=oneview_server_profile_template_example.json.j2 dest=/tmp/file.tmp" -e "@facts.yaml"
+cat /tmp/file.tmp
 ```
 
 ### Other examples are available:

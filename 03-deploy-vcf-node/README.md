@@ -2,28 +2,47 @@
 This part is still work in progress and is not ready to be run agains the platform. Parsing the API json output (https://code.vmware.com/apis/921/vmware-cloud-foundation) is easier with https://jsoneditoronline.org/
 
 ---
-This step describe the flow to add a host in VCF.
-The flow is composed of 3 steps:
-1. validation of the node --> call API OK
+This step describe the flow to add a host in VCF/SDDC.
+The flow is composed of the following steps steps:
+1. validation of the node in VCF --> call API OK
 2. commision the node --> call API OK
-3. add host to a VI cluser
+3. add host to a WLD cluster --> to do 
+4. remove host from WLD cluster --> to do 
+5. decommision host from VCF  --> to do
+
+## Quick start
+```bash
+###To vaildate and commision a host
+cd /mnt/obs_share/ansible/03-deploy-vcf-node
+ ./vcf-commision-host.sh
+
+### To add the host to a wld
+ ./vcf-add2wld-host.sh
+ 
+
+### To decommision a host
+./vcf-decommision-host.sh
+```
 
 
+
+---
+DETAILS OF VCF API CALLS - WORKFLOW
+---
 
 ## 0-Retrieve a cert & token
 ```bash
 cd /mnt/obs_share/ansible/03-deploy-vcf-node
 openssl s_client -showcerts -connect 10.15.61.36:443 < /dev/null > sddc.cert
 
-
-export VCF_USERNAME=tdovan@obs.hpecic.net
-export VCF_PASSWORD=ZZZZ
 curl --cacert sddc.cert 'https://sddc01.vcf.obs.hpecic.net/v1/tokens' -i -X POST \
   -H 'Content-Type: application/json' \
-  -H 'Accept: application/json'     -s     -d '{
-  "username" : "administrator@vsphere.local",
-  "password" : "PASSWORD"
-}'
+  -H 'Accept: application/json' \
+  -s \
+  -d '{
+  "username" : "${VCF_USERNAME}",
+  "password" : "${VCF_PASSWORD}"
+  }'
 
 #[output]
 {"accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3MWE5MDUwOC1jZjMzLTQzODYtYmI0MC1lM2VkNDVhMzQwMTEiLCJpYXQiOjE1OTI5MjQ2OTksInN1YiI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsImlzcyI6InZjZi1hdXRoIiwiYXVkIjoic2RkYy1zZXJ2aWNlcyIsIm5iZiI6MTU5MjkyNDY5OSwiZXhwIjoxNTkyOTI4Mjk5LCJ1c2VyIjoidGRvdmFuQG9icy5ocGVjaWMubmV0IiwibmFtZSI6InRkb3ZhbkBvYnMuaHBlY2ljLm5ldCIsInNjb3BlIjpbIkJBQ0tVUF9DT05GSUdfUkVBRCIsIkNSRURFTlRJQUxfUkVBRCIsIlVTRVJfV1JJVEUiLCJPVEhFUl9XUklURSIsIkJBQ0tVUF9DT05GSUdfV1JJVEUiLCJPVEhFUl9SRUFEIiwiVVNFUl9SRUFEIiwiQ1JFREVOVElBTF9XUklURSJdfQ.4W1MFWyEWGuYwHr57QjixPf5Btk0skdf5b3b82wMY3g","refreshToken":{"id":"fb13d890-6527-43ac-a9cc-13a995e34d04"}}
