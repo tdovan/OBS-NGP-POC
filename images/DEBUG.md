@@ -2,15 +2,16 @@
 
 ---- Info on ESXi7 and CNA 3820/6820 drivers
 https://my.vmware.com/web/vmware/details?downloadGroup=OEM-ESXI70-HPE&productId=974
-CNA 6820 = HPE QLogic FastLinQ 10/25/50 GbE Drivers >> Marvell QL45604 > MRVL-E3-Ethernet-iSCSI-FCoE--1.0.0.0-1vmw.700.1.0.15843807
-firmware 08.50.44 / vibs qedf version 1.3.41.0	
+
+
 (https://www.vmware.com/resources/compatibility/detail.php?deviceCategory=io&productid=48976&releaseid=485&deviceCategory=io&details=1&keyword=6820&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc)
 CNA 3820 = vibs https://www.vmware.com/resources/compatibility/search.php?deviceCategory=io&details=1&keyword=3820&page=1&display_interval=10&sortColumn=Partner&sortOrder=Asc
 https://kb.vmware.com/s/article/78389
-FCoE = qedf
+
+
 esxcli software component apply -d /tmp/index.xml
 
-Qlogic direct: http://driverdownloads.qlogic.com/QLogicDriverDownloads_UI/SearchByOs.aspx?ProductCategory=322&OsCategory=6&Os=167&OsCategoryName=VMware&ProductCategoryName=Converged+Network+Adapters&OSName=VMware+ESX%2FESXi
+
 ### VCF
 
 #### FCoE
@@ -18,7 +19,7 @@ FCoE support in ESXi 7.0
 https://kb.vmware.com/s/article/78389
 It should also be noted that qedf driver that is supported ESXi 6.7 requires open FCoE. Since there is no open FCoE in 7.0, qedf driver will not function and must be replaced with the ESXi 7.0 async qedf driver.
 
-CNA 6820 > Marvell QL45604 (https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=a00091476en_us)
+
 CNA 3820 > QLogic BCM 57840S with integrated MAC/PHY > https://my.vmware.com/web/vmware/details?downloadGroup=DT-ESX70-MARVELL-QEDENTV-50189&productId=974
 
 
@@ -62,26 +63,7 @@ $webclient=New-Object System.Net.WebClient
 $webclient.Proxy.Credentials = [System.Net.CredentialCache]::DefaultNetworkCredentials
 [Net.ServicePointManager]::SecurityProtocol = "tls12"
 
-$ pwsh
-PowerShell ISE (runas administrator)
-PS /root> Install-Module -Name VMware.PowerCLI –AllowClobber
-Update-Module VMware.PowerCLI
-Add-EsxSoftwareDepot -DepotUrl "C:\Users\tdovan\OneDrive - Hewlett Packard Enterprise\hpe\HPE_Accounts\_1_TA\Orange\_OBS\20200420_OBS RFP NGP\POC\vmware\VMware-ESXi-7.0.0-15843807-depot.zip"
-Add-EsxSoftwareDepot -DepotUrl "C:\Users\tdovan\OneDrive - Hewlett Packard Enterprise\hpe\HPE_Accounts\_1_TA\Orange\_OBS\20200420_OBS RFP NGP\POC\vmware\MRVL-E4-CNA-Driver-Bundle_5.0.189-1OEM.700.1.0.15525992_16014678.zip"
-New-EsxImageProfile -CloneProfile "ESXi-7.0.0-15843807-standard" -name "ESXi-7.0.0-15843807-standard-custom" -Vendor "HPE"
 
-Get-EsxSoftwarePackage | Select-String -Pattern "qed"
-
-Get-EsxSoftwarePackage -Name qedrntv -Vendor VMW | Remove-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-Get-EsxSoftwarePackage -Name qedentv -Vendor VMW | Remove-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-
-Get-EsxSoftwarePackage -Name qedentv -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-Get-EsxSoftwarePackage -Name qedf -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-Get-EsxSoftwarePackage -Name qedi -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-Get-EsxSoftwarePackage -Name qedrntv -Vendor QLC | Add-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
-
-Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToIso -FilePath "C:\Users\tdovan\OneDrive - Hewlett Packard Enterprise\hpe\HPE_Accounts\_1_TA\Orange\_OBS\20200420_OBS RFP NGP\POC\vmware\HPE-ESXi-7.0-custom.2.iso"
-Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToBundle -FilePath "C:\Users\tdovan\OneDrive - Hewlett Packard Enterprise\hpe\HPE_Accounts\_1_TA\Orange\_OBS\20200420_OBS RFP NGP\POC\vmware\\HPE-ESXi-7.0-custom.2.zip"
 
 -----
 Get-EsxSoftwarePackage -Name qedentv -Vendor VMW | Remove-EsxSoftwarePackage -ImageProfile "ESXi-7.0.0-15843807-standard-custom"
