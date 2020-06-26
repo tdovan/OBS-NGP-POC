@@ -1,0 +1,41 @@
+- fail:
+    msg: "Failed to find osda_ip_address"
+  when: osda_ip_address is not defined
+
+- name: Check if OSDA IP and port are reachable
+  wait_for:
+    host: "{{ osda_ip_address }}"
+    port: "{{ osda_port | default(5000) }}"
+    timeout: 3
+  register: osda_reach_register
+  ignore_errors: true
+
+- name: Check if deploy json is available, if yes, enable flag
+  debug:
+    msg: "OSDA Successful is running on {{ osda_ip_address}} "
+  when: osda_reach_register is success
+
+- name: Check if deploy json is available, if yes, enable flag
+  debug:
+    msg: "OSDA Successful"
+  when: osda_reach_register is not success
+
+- name: Set missing retry_count for polling
+  set_fact:
+    retry_count: 1
+  when: retry_count is not defined
+
+- name: Set missing max_retries for polling
+  set_fact:
+    max_retries: 10
+  when: max_retries is not defined
+
+- name: Set missing ssh_wait_time for polling
+  set_fact:
+    ssh_wait_time: 30
+  when: ssh_wait_time is not defined
+
+- name: Set missing sleep_time for polling
+  set_fact:
+    sleep_time: 500
+  when: sleep_time is not defined

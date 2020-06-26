@@ -1,0 +1,5 @@
+- hosts: all
+
+  tasks:
+  - import_tasks: validate_input.yml
+  - import_tasks: check_tasks.yml

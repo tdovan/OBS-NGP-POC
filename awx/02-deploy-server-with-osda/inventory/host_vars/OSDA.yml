@@ -1,0 +1,24 @@
+# deploy 1 single server SY660 for demo
+deploy_json_file: "data/deploy-1nodesSY660-primera-bfs.json"
+
+# deploy 4 VCF MGMT ndoes
+# deploy_json_file: "data/deploy-vcf-mgmt-4nodes.json"
+
+# deploy 3 VCF VSAN nodes
+# deploy_json_file: "data/deploy-vcf-vsan-3nodes.json"
+
+# deploy 3 VCF PRIMERA nodes
+# deploy_json_file: "data/deploy-vcf-primera-3nodes.json"
+
+# deploy VCF full stack : 4 MGMT + 4 VSAN + 3 PRIMERA nodes
+# deploy_json_file: "data/deploy-vcf-fullstack-12nodes.json"
+
+osda_ip_address: "osda.obs.hpecic.net"
+
+# Default 5000
+#osda_port: "<osda_port>"
+
+retry_count: "1"
+max_retries: "50"
+ssh_wait_time: "30"
+sleep_time: "900"

@@ -1,0 +1,28 @@
+- name: List of IP address for OS
+  debug:
+    msg: "{{ ip_addresses }}"
+
+- fail:
+    msg: "Reached maximum retries and one or more servers didnt come online"
+  when: (retry_count | int) > (max_retries | int)
+
+- name: Display retry count 
+  debug:
+    msg: "Retry Count: {{ retry_count }} (max retries: {{ max_retries }})"
+
+- name: Checking for ping reachability
+  wait_for:
+     host: "{{ item }}"
+     port: 22
+     timeout: "{{ ssh_wait_time }}"
+  with_items: "{{ ip_addresses }}"
+  register: output
+  ignore_errors: true
+
+- name: Excluded reachable IP address
+  set_fact:
+    ip_addresses: "{{ output.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list }}"
+    retry_count: "{{ retry_count | int + 1}}"
+
+- include_tasks: polling.yml
+  when: ip_addresses is defined and (ip_addresses | length > 0)

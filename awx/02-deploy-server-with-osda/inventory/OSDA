@@ -1,0 +1,2 @@
+[osda_server]
+OSDA	ansible_connection=local

@@ -1,0 +1,79 @@
+{
+  "taskName": "VCF-VSAN-3nodes",
+  "hosts": [
+    {
+      "serverProfile": "esx01.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx01.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.11",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    },
+    {
+      "serverProfile": "esx02.vcf.obs.hpecic.net-VCF--MGMT",
+      "hostName": "esx02.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.12",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    },
+    {
+      "serverProfile": "esx03.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx03.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.13",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    },
+    {
+      "serverProfile": "esx04.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx04.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.14",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    }
+  ],
+  "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+  "deploymentMode": "hpesynergy",
+    "oneviewDetails": {
+    "ovName": "synergy.obs.hpecic.net",
+    "ovSPT": "SPT-VCF40-VSAN"
+  }
+}

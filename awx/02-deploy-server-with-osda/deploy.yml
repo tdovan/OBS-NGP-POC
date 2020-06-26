@@ -1,0 +1,36 @@
+- name: Read json file for OS deployment
+  set_fact:
+    jsonInput: "{{ lookup('file', deploy_json_file) | from_json }}"
+
+- set_fact:
+    deploy_uri: "http://{{ osda_ip_address }}:{{ osda_port | default(5000) }}/rest/deploy"
+    ip_addresses: "{{ jsonInput.hosts | map(attribute='ipAddr') | list }}" 
+
+## Timeout, to do initial wait
+#- set_fact:
+#    timeoutCount: "{{ ip_addresses | length | int * 300 }}"
+
+- name: "OSDA - Deploy operating system"
+  uri:
+    body_format: json
+    body: "{{ lookup('file', deploy_json_file) }}"
+    method: POST
+    url: "{{ deploy_uri }}"
+    user: "{{ osda_username | default(ansible_user) }}"
+    password: "{{ osda_password | default(ansible_user) }}"
+    use_proxy: no
+    #use_proxy: "{{ use_proxy | default('no') }}"
+  register: deploy_register
+
+- debug:
+    msg: "{{ deploy_register }} "
+
+- set_fact:
+    task_id: "{{ deploy_register.json.result.taskID }}"
+  when: deploy_register.json is defined and 'taskID' in deploy_register.json.result
+
+- name: "Sleep for {{ sleep_time }} seconds for OS to install"
+  wait_for:
+    timeout: "{{ sleep_time }}"
+
+- import_tasks: polling.yml
