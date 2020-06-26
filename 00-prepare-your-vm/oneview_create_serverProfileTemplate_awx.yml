@@ -2,6 +2,14 @@
 - name:  Creating server profile templates from csv
   hosts: all
   connection: local
+  environment:
+    #PYTHONPATH: "$PYTHONPATH:/usr/share/ansible/oneview-ansible/library"
+    #ONEVIEWSDK_IP: "{{ oneview_auth.ip }}"
+    #ONEVIEWSDK_USERNAME: "{{ oneview_auth.username }}"
+    #ONEVIEWSDK_PASSWORD: "{{ oneview_pw }}"
+    #ONEVIEWSDK_API_VERSION: "{{ oneview_auth.api_version }}"
+    ONEVIEWSDK_API_VERSION: "1600"
+
   vars:
      # config: "{{ playbook_dir }}/oneview_config.json"
   tasks:
