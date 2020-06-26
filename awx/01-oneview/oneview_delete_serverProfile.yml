@@ -1,0 +1,30 @@
+---
+- hosts: all
+  connection: local
+  vars:
+    # config: "{{ playbook_dir }}/oneview_config.json"
+    # server_profile_template_name: SPT-VCF40-VSAN-created-with-ansible
+    server_profile_name: esx11.vcf.obs.hpecic.net-VCF-VI-PRIMERA
+    #server_hardware_type_name: SY 480 Gen10 1
+    enclosure_group_name: SynFrame20-30_EG
+    #server_profile_name: RHEL8.2
+  tasks:
+    - name: Power off the server hardware
+      oneview_server_profile:
+        # config: "{{ config }}"
+        state: absent
+        data:
+          name : "{{ server_profile_name }}"
+          powerStateData:
+            powerState: "Off"
+            powerControl: "MomentaryPress"
+      delegate_to: localhost
+
+
+    - name: Delete the Server Profile
+      oneview_server_profile:
+        # config: "{{ config }}"
+        state: "absent"
+        data:
+          name: "{{ server_profile_name }}"
+      delegate_to: localhost

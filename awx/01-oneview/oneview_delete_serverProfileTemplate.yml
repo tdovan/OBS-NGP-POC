@@ -5,13 +5,13 @@
     #config: "{{ playbook_dir }}/oneview_config.json"
     server_profile_template_name: SPT-VCF40-VSAN-created-with-ansible
     #server_hardware_type_name: SY 480 Gen10 1
-    enclosure_group_name: SynFrame20-30_EG
-    server_profile_name: RHEL8.2
+    #enclosure_group_name: SynFrame20-30_EG
+    #server_profile_name: RHEL8.2
 
   tasks:
     - name: Delete the Server Profile Template
       oneview_server_profile_template:
-        config: "{{ config }}"
+        # config: "{{ config }}"
         state: absent
         data:
           name: "{{ server_profile_template_name }}"
@@ -21,7 +21,7 @@
 
     - name: Do nothing when Server Profile Template is absent
       oneview_server_profile_template:
-        config: "{{ config }}"
+        # config: "{{ config }}"
         state: absent
         data:
           name: "{{ server_profile_template_name }}"
