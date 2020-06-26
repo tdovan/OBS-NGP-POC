@@ -1,5 +1,8 @@
 - hosts: all
-
+  environment:
+    osda_ip_address: "osda.obs.hpecic.net"
+    deploy_json_file: "data/deploy-1nodesSY660-primera-bfs.json"
+    
   tasks:
   - import_tasks: validate_input.yml
   - import_tasks: deploy.yml
