@@ -57,6 +57,6 @@
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40-HYBRID-SY480"
+    "ovSPT": "SPT-VCF40-HYBRID-SY480-VSAN"
   }
 }

@@ -128,6 +128,7 @@ We want to make sure that the kickstart use the good disk.
 ```bash
 ls -la /bootbank
 vmkfstools -P /vmfs/volumes/10096f8b-d044b0e9-8697-0c6ccda4bf06
+vmkfstools -P `ls -la /bootbank | awk '{print $NF}'`
 vfat-0.04 (Raw Major Version: 0) file system spanning 1 partitions.
 File system label (if any): BOOTBANK2
 Mode: private
