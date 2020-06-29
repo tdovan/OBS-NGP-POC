@@ -1,5 +1,5 @@
 {
-  "taskName": "VCF-Hybrid-3nodes",
+  "taskName": "VCF-VSAN-3nodes",
   "hosts": [
     {
       "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID",
