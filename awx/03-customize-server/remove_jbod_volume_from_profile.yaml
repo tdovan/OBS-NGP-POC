@@ -15,6 +15,7 @@
     - server_profile_name: "{{ inventory_hostname }}"
     # - config: '{{ playbook_dir }}/{{ oneview_config }}'
     - drive_name: 'VSAN-JBOD'                        #compulsary
+    - persistent: false
     - sas_drive_names: []                   #for execution purpose only
     - sas_logical_jbods: []                 #for execution purpose only
     - remove_sas_logical_jbods: []          #for execution purpose only
@@ -128,7 +129,7 @@
           name: "{{ server_profile_name }}"
           localStorage:
             sasLogicalJBODs: '{{ sas_logical_jbods }}'
-            state: "absent"
+            # state: "absent"
       delegate_to: localhost
       register: result
       when: server_profiles is defined
