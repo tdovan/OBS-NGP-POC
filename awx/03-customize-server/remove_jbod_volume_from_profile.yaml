@@ -122,12 +122,13 @@
     - name: Remove sas logical jbod connection from exisitng profile 
       oneview_server_profile:
         # config: "{{ config }}"
-        # state: "present"
-        state: "absent"
+        state: "present"
+        # state: "absent"
         data:
           name: "{{ server_profile_name }}"
           localStorage:
             sasLogicalJBODs: '{{ sas_logical_jbods }}'
+            state: "absent"
       delegate_to: localhost
       register: result
       when: server_profiles is defined
