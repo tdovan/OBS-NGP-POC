@@ -56,7 +56,7 @@
 
     - name: Gather facts about all Server Hardwares
       oneview_server_hardware_facts:
-        config: "{{ config }}"
+        #config: "{{ config }}"
         params:
           filter:
             - serverProfileUri='{{ server_profile_uri }}'
@@ -110,7 +110,7 @@
 
     - name: Power Off the server hardware
       oneview_server_hardware:
-        config: "{{ config }}"
+        #config: "{{ config }}"
         state: power_state_set
         data:
             name : '{{ server_hardware_name }}'
@@ -121,7 +121,7 @@
 
     - name: Add sas logical jbod connection to exisitng profile
       oneview_server_profile:
-        config: "{{ config }}"
+        #config: "{{ config }}"
         state: "present"
         data:
           name: "{{ server_profile_name }}"
@@ -133,7 +133,7 @@
 
     - name: Power On the server hardware
       oneview_server_hardware:
-        config: "{{ config }}"
+        #config: "{{ config }}"
         state: power_state_set
         data:
             name : '{{ server_hardware_name }}'
