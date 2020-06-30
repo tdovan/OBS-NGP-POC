@@ -2,8 +2,9 @@
 # Fetch the sas logical jbod data
 # create new_sas_logical_jbod data 
 # Note: deviceSlot is always "Mezz 1" as internal connection to drive enclosure
-
-- hosts: localhost
+---
+- hosts: all
+  connection: local
   environment:
     #PYTHONPATH: "$PYTHONPATH:/usr/share/ansible/oneview-ansible/library"
     #ONEVIEWSDK_IP: "{{ oneview_auth.ip }}"
