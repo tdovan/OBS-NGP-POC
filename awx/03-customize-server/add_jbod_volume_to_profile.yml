@@ -12,7 +12,8 @@
     #ONEVIEWSDK_API_VERSION: "{{ oneview_auth.api_version }}"
     ONEVIEWSDK_API_VERSION: "1600"
   vars:
-    - server_profile_name: 'esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID'
+    - server_profile_name: "{{ inventory_hostname }}"
+    #- server_profile_name: 'esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID'
     #- config: '{{ playbook_dir }}/{{ oneview_config }}'
     - size_GB: 1920                            #compulsary
     - drive_technology: 'SataSsd'                  #compulsary
