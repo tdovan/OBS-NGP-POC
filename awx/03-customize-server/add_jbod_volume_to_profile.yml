@@ -15,7 +15,7 @@
     - server_profile_name: 'esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID'
     #- config: '{{ playbook_dir }}/{{ oneview_config }}'
     - size_GB: 1920                            #compulsary
-    - drive_technology: 'SATA SSD'                  #compulsary
+    - drive_technology: 'SataSsd'                  #compulsary
     - drive_name: 'VSAN-JBOD'                        #compulsary
     - num_physical_drives: 5                #optional, default is 1
     - erase_data: false                      #optional, default is true
