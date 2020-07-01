@@ -1,6 +1,13 @@
 ---
 - hosts: all
   connection: local
+  environment:
+    #PYTHONPATH: "$PYTHONPATH:/usr/share/ansible/oneview-ansible/library"
+    #ONEVIEWSDK_IP: "{{ oneview_auth.ip }}"
+    #ONEVIEWSDK_USERNAME: "{{ oneview_auth.username }}"
+    #ONEVIEWSDK_PASSWORD: "{{ oneview_pw }}"
+    #ONEVIEWSDK_API_VERSION: "{{ oneview_auth.api_version }}"
+    ONEVIEWSDK_API_VERSION: "1600"
   vars:
     # config: "{{ playbook_dir }}/oneview_config.json"
     # server_profile_template_name: SPT-VCF40-VSAN-created-with-ansible
@@ -11,7 +18,7 @@
   tasks:
     - name: Gather facts about a Server Profile by name
       oneview_server_profile_facts:
-        config: "{{ config }}"
+        #config: "{{ config }}"
         name: "{{server_profile_name}}"
       delegate_to: localhost
 
