@@ -1,0 +1,37 @@
+---
+- hosts: all
+  connection: local
+  environment:
+    #PYTHONPATH: "$PYTHONPATH:/usr/share/ansible/oneview-ansible/library"
+    #ONEVIEWSDK_IP: "{{ oneview_auth.ip }}"
+    #ONEVIEWSDK_USERNAME: "{{ oneview_auth.username }}"
+    #ONEVIEWSDK_PASSWORD: "{{ oneview_pw }}"
+    #ONEVIEWSDK_API_VERSION: "{{ oneview_auth.api_version }}"
+    ONEVIEWSDK_API_VERSION: "1600"
+  vars:
+    - firmware_baseline_name: ''               #compulsary
+    - server_profile_name: ''       #compulsary
+    #- config: "{{ playbook_dir }}/{{ oneview_config_admin }}"
+    - overriddenSettings : []
+  tasks:
+    - debug:
+        msg: "Mandatory input parameters server_profile_name, firmware_baseline_name"
+      when: server_profile_name == "" or firmware_baseline_name == ""
+    - meta: end_play
+      when: server_profile_name == "" or firmware_baseline_name == ""
+
+    - name: Update Server Profile
+      oneview_server_profile:
+        #config: "{{ config }}"
+        state: "present"
+        data:
+          name: "{{ server_profile_name }}"
+          affinity: "BayAndServer"
+          firmware:
+            manageFirmware: true
+            firmwareBaselineName: "{{ firmware_baseline_name }}"
+            firmwareInstallType: "FirmwareAndOSDrivers"
+            forceInstallFirmware: false
+      delegate_to: localhost
+      register: result
+
