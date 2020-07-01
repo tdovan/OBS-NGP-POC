@@ -18,5 +18,9 @@ source="http:awx" (index="activity_stream")
 source="http:awx" (index="job_events")
 source="http:awx" (index="system_tracking")
 
+source="http:awx" (index="awx")| spath playbook | search playbook="pascal/oneview_get_serverProfile.yml" |  rex "{\"log\":\"(?<jsonData>.*)"
+|  eval _raw=replace(jsonData,"\\\\\"","\"")
+|  spath
+
 ```
 
