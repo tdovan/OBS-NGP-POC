@@ -11,7 +11,7 @@
   vars:
     # config: "{{ playbook_dir }}/oneview_config.json"
     # server_profile_template_name: SPT-VCF40-VSAN-created-with-ansible
-    server_profile_name: esx11.vcf.obs.hpecic.net-VCF-VI-PRIMERA
+    server_profile_name: cohesity-esx01
     #server_hardware_type_name: SY 480 Gen10 1
     enclosure_group_name: SynFrame20-30_EG
     #server_profile_name: RHEL8.2
