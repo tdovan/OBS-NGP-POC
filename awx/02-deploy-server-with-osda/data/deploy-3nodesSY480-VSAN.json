@@ -10,7 +10,7 @@
       "dns1": "10.15.60.10",
       "dns2": "10.11.0.13",
       "bootProto": "static",
-      "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
+      "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
       "mgmtNIC": {
         "connectionName": "CN-NS-1"
       },
@@ -27,7 +27,7 @@
       "dns1": "10.15.60.10",
       "dns2": "10.11.0.13",
       "bootProto": "static",
-      "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
+      "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
       "mgmtNIC": {
         "connectionName": "CN-NS-1"
       },
@@ -44,7 +44,7 @@
       "dns1": "10.15.60.10",
       "dns2": "10.11.0.13",
       "bootProto": "static",
-      "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
+      "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
       "mgmtNIC": {
         "connectionName": "CN-NS-1"
       },
@@ -53,7 +53,7 @@
       }
     }
   ],
-  "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
+  "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
