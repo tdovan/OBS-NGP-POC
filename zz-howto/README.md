@@ -227,11 +227,20 @@ https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX-6260622f39464424b74a
 ./CP038747.vmexe --inventory
 ./CP038747.vmexe --force --silent
 refresh server
-
-
 ```
----
 
-esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/ilo/HPE_bootbank_ilo_700.10.1.0.16-1OEM.700.0.0.14828939.vib
-esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/sut/HPE_bootbank_sut_700.2.5.5-1OEM.700.1.0.15525992.vib
+### ansible parse output in json
+
+```bash
+# enable ansibl json output
+vi /etc/ansibleansible.cfg
+stdout_callback = json
+
+# parse ansible json output
+cd /mnt/obs_share/ansible/00-prepare-your-vm
+ansible-playbook  -i inventory/localhost oneview_drive_enclosure_facts.yml | jq '.'
+ansible-playbook  -i inventory/localhost oneview_drive_enclosure_facts.yml | jq '.plays[].tasks[].hosts.localhost.ansible_facts.drive_enclosures'
+```
+
+---
 

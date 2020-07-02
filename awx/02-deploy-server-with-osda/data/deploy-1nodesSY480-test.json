@@ -1,5 +1,5 @@
 {
-  "taskName": "VCF-test-eraseVSAN-VMFS-1nodes",
+  "taskName": "VCF-1node-FC",
   "hosts": [
     {
       "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID",
@@ -10,7 +10,7 @@
       "dns1": "10.15.60.10",
       "dns2": "10.11.0.13",
       "bootProto": "static",
-      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
       "mgmtNIC": {
         "connectionName": "CN-NS-1"
       },
@@ -19,10 +19,10 @@
       }
     }
   ],
-  "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+  "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40-HYBRID-SY480"
+    "ovSPT": "SPT-VCF40-HYBRID-SY480-FC"
   }
 }
