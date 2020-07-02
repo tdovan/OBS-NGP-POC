@@ -179,4 +179,59 @@ Get-EsxSoftwarePackage -Name qedrntv -Vendor QLC | Add-EsxSoftwarePackage -Image
 
 Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToIso -FilePath "/mnt/obs_share/vmware/ESXi-7.0/hpe-custom/HPE-ESXi-7.0-custom.2.iso"
 Export-EsxImageProfile -ImageProfile "ESXi-7.0.0-15843807-standard-custom" -ExportToBundle -FilePath "/mnt/obs_share/vmware/ESXi-7.0/hpe-custom/HPE-ESXi-7.0-custom.2.zip"
+
+### How to install iSUT for SPP (driver/firmware) management
+http://vibsdepot.hpe.com/hpe/jun2020/esxi-700-bundles/
+http://vibsdepot.hpe.com/hpq/recipes/HPE-VMware-Recipe.pdf 
+https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX_6089c15599b647aca0c049ce24#tab3 
+https://support.hpe.com/hpesc/public/docDisplay?docId=emr_na-a00092491en_us
+you cannot run the fw update online on vSAN configurations because of HBA mode: In addition, online firmware flashing of drives attached to a HPE Smart Array controller running in Zero Memory (ZM) mode or Host Bus Adapter (HBA) is NOT supported. Only offline firmware flashing of drives is supported for these configuration
+
+
+
+vim-cmd hostsvc/maintenance_mode_enter
+esxcli software vib install -v http://osda.obs.hpecic.net/HPE_bootbank_sut_700.2.5.5-1OEM.700.1.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/HPE_bootbank_ilo_700.10.1.0.16-1OEM.700.0.0.14828939.vib
+reboot
+sut -status
+vim-cmd hostsvc/maintenance_mode_exit
+sut –set mode=<OnDemand/AutoDeploy/AutodeployReboot>
+sut -set mode=AutodeployReboot
+if AutoDeployReboot = esxcli system maintenanceMode set -e true
+esxcli software vib list
+
+
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/amscli/HPE_bootbank_amscli_11.5.0.22-1OEM.700.0.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/amsd/HPE_bootbank_amsd_700.11.5.0.28-1OEM.700.1.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/bootcfg/HPE_bootbank_bootcfg_700.10.5.0.23-7.0.0.15525992.vib
+
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/conrep/HPE_bootbank_conrep_700.10.5.0.34-7.0.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/cru/HPE_bootbank_cru_700.10.16-1OEM.700.0.0.14828939.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/fc-enablement/HPE_bootbank_fc-enablement_700.3.5.0.40-1OEM.700.0.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/hpessacli/HPE_bootbank_hpessacli_4.18.1.0-7.0.0.15525992.hpe.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/hponcfg/HPE_bootbank_hponcfg_700.10.5.0.25-7.0.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/ilo/HPE_bootbank_ilo_700.10.1.0.16-1OEM.700.0.0.14828939.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/smx-provider/HPE_bootbank_smx-provider_700.03.16.00.12-14828939.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/sut/HPE_bootbank_sut_700.2.5.6-1OEM.700.1.0.15525992.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/testevent/HPE_bootbank_testevent_700.10.5.0.24-7.0.0.15525992.vib
+
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/
+
+logs are : /opt/sut/tmp
+
+esxcli software vib remove --vibname amscli
+
+
+#manuel upgrade
+https://support.hpe.com/hpsc/swd/public/detail?swItemId=MTX-6260622f39464424b74a17bbbf#tab3
+./CP038747.vmexe --inventory
+./CP038747.vmexe --force --silent
+refresh server
+
+
+```
 ---
+
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/ilo/HPE_bootbank_ilo_700.10.1.0.16-1OEM.700.0.0.14828939.vib
+esxcli software vib install -v http://osda.obs.hpecic.net/vibs/vib20/sut/HPE_bootbank_sut_700.2.5.5-1OEM.700.1.0.15525992.vib
+

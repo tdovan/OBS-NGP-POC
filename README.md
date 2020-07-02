@@ -22,6 +22,10 @@ Deploy a server from a template + install the OS + commision the node in vcf + a
 
 ![General workflow](images/general-workflow.png)
 
+## Use cases for Pascal
+In the following link, 2 uses cases are described: exporting a server profile to splunk and upgrading disk firmware
+- [exportServerProfile and upgradeDiskFirmware](pascal/README.md)
+
 ## For curious people
 I've added a bunch of playbook that can be leverage for your own use case :
 [zz-ansible-playbooks](https://github.com/tdovan/OBS-NGP-POC/tree/master/zz-ansible-playbooks)
