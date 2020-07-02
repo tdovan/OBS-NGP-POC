@@ -1,5 +1,5 @@
 {
-  "taskName": "VCF-FC-3nodes-newbuild",
+  "taskName": "VCF-FC-3nodes-newbuildESXi",
   "hosts": [
     {
       "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID",
