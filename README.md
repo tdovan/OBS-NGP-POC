@@ -35,6 +35,8 @@ I've also added the tips/howto used to configure the platform [zz-howto](https:/
 ## Miscellanous
 
 - [HPE Oneview API](https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.2/cicf-api/en/index.html)
+- [HPE Oneview PowerShell Module](https://hpe-docs.gitbook.io/posh-hpeoneview/cmdlets/v5.20)
+- [HPE Oneview Ansible Module](https://github.com/HewlettPackard/oneview-ansible)
 - [HPE Primera API](https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=emr_na-a00088912en_us)
 - [Cohesity API](https://developer.cohesity.com/apidocs-641.html#/rest)
 - [VCF API](https://code.vmware.com/apis/921/vmware-cloud-foundation)
