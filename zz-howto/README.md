@@ -112,7 +112,11 @@ Get-HPOVServerProfileTemplate -ApplianceConnection $ov2export | ConvertTo-HPOVPo
 
 Get-HPOVManagedSAN -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVManagedSAN.ps1 -Append
 
- Get-HPOVStorageSystem -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVStorageSystem.ps1 -Append
+Get-HPOVStorageSystem -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVStorageSystem.ps1 -Append
+
+
+Get-HPOVBaselineRepository -Type External  | ConvertTo-HPOVPowerShellScript -Export HPOVBaselineRepository.ps1 -Append
+
 
 ## Now it's time to import to a new synergy
 cd /root/workspace/synergy-config/synergy.obs.hpecic.net/
