@@ -1,10 +1,10 @@
 {
-  "taskName": "COMPOSER3-4nodes-Gen10",
+  "taskName": "COMPOSER3-4nodes-Gen9",
   "hosts": [
     {
-      "serverProfile": "sfo01esx01",
-      "hostName": "sfo01esx01.sfo01.synergy.hybridit.hpecic.net",
-      "ipAddr": "10.6.40.201",
+      "serverProfile": "mgmtesx01",
+      "hostName": "mgmtesx01.sfo02.synergy.hybridit.hpecic.net",
+      "ipAddr": "10.6.40.51",
       "netmask": "255.255.255.0",
       "gateway": "10.15.40.1",
       "dns1": "10.15.60.10",
@@ -19,9 +19,9 @@
       }
     },
     {
-      "serverProfile": "sfo01esx02",
-      "hostName": "sfo01esx02.sfo01.synergy.hybridit.hpecic.net",
-      "ipAddr": "10.6.40.202",
+      "serverProfile": "mgmtesx02",
+      "hostName": "mgmtesx02.sfo02.synergy.hybridit.hpecic.net",
+      "ipAddr": "10.6.40.52",
       "netmask": "255.255.255.0",
       "gateway": "10.15.40.1",
       "dns1": "10.15.60.10",
@@ -36,9 +36,9 @@
       }
     },
     {
-      "serverProfile": "sfo01esx03",
-      "hostName": "sfo01esx03.sfo01.synergy.hybridit.hpecic.net",
-      "ipAddr": "10.6.40.203",
+      "serverProfile": "mgmtesx03",
+      "hostName": "mgmtesx03.sfo02.synergy.hybridit.hpecic.net",
+      "ipAddr": "10.6.40.53",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -53,9 +53,9 @@
       }
     },
     {
-      "serverProfile": "sfo01esx04",
-      "hostName": "sfo01esx04.sfo01.synergy.hybridit.hpecic.net",
-      "ipAddr": "10.6.40.204",
+      "serverProfile": "mgmtesx04",
+      "hostName": "mgmtesx04.sfo02.synergy.hybridit.hpecic.net",
+      "ipAddr": "10.6.40.54",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -74,6 +74,6 @@
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "composer3.synergy.hybridit.hpecic.net",
-    "ovSPT": "SPT-VCF40-HYBRID-SY480-FC"
+    "ovSPT": "SPT-VCF40-HYBRID-SY480-GEN9"
   }
 }
