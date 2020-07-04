@@ -7,7 +7,9 @@ curl https://packages.microsoft.com/config/rhel/7/prod.repo |  sudo tee /etc/yum
 sudo yum makecache
 sudo yum install powershell
 pwsh
-PS /root> Install-Module hponeview.500
+PS /root> Install-Module -Name HPOneView.520 -RequiredVersion 5.20.2422.3962
+# PS /root> Install-Module hponeview.500
+
 PS /root> $az1=Connect-HPOVMgmt -Appliance $IP -UserName admin -Password PASSWORD
 PS /root> Get-HPOVServer -ApplianceConnection $az1 | Get-HPOVAlert -State active | Set-HPOVAlert -Cleared
 
@@ -96,17 +98,21 @@ pwsh
 $ov2export=Connect-HPOVMgmt -Appliance $oneview -UserName $username -Password $password
 
 # Export - order is important
-Get-HPOVAddressPoolSubnet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVAddressPoolSubnet.ps1
-Get-HPOVBaseline -ApplianceConnection $ov2export |  ConvertTo-HPOVPowerShellScript >  HPOVBaseline.ps1
-Get-HPOVScope -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVScope.ps1 (issue of parsing)
-Get-HPOVUser -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVUser.ps1 (password not exported of course)
+Get-HPOVAddressPoolSubnet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVAddressPoolSubnet.ps1 -Append
+Get-HPOVBaseline -ApplianceConnection $ov2export |  ConvertTo-HPOVPowerShellScript -Export HPOVBaseline.ps1 -Append
+Get-HPOVScope -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVScope.ps1 -Append (issue of parsing)
+Get-HPOVUser -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVUser.ps1 -Append (password not exported of course)
 Get-HPOVNetwork -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVNetwork.ps1 -Append
 Get-HPOVNetworkSet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export  HPOVNetworkSet.ps1 -Append
-Get-HPOVLogicalInterconnectGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVLogicalInterconnectGroup.ps1
-Get-HPOVUplinkSet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVUplinkSet.ps1
-Get-HPOVEnclosureGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVEnclosureGroup.ps1
-Get-HPOVLogicalEnclosure -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVLogicalEnclosure.ps1
-Get-HPOVServerProfileTemplate -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVServerProfileTemplate.ps1
+Get-HPOVLogicalInterconnectGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export  HPOVLogicalInterconnectGroup.ps1 -Append
+Get-HPOVUplinkSet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVUplinkSet.ps1 -Append
+Get-HPOVEnclosureGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVEnclosureGroup.ps1 -Append
+Get-HPOVLogicalEnclosure -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVLogicalEnclosure.ps1 -Append
+Get-HPOVServerProfileTemplate -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVServerProfileTemplate.ps1 -Append
+
+Get-HPOVManagedSAN -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVManagedSAN.ps1 -Append
+
+ Get-HPOVStorageSystem -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVStorageSystem.ps1 -Append
 
 ## Now it's time to import to a new synergy
 cd /root/workspace/synergy-config/synergy.obs.hpecic.net/
