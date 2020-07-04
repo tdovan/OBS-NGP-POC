@@ -32,7 +32,7 @@ I've added a bunch of playbook that can be leverage for your own use case :
 
 I've also added the tips/howto used to configure the platform [zz-howto](https://github.com/tdovan/OBS-NGP-POC/tree/master/zz-howto)
 
-## Miscellanous
+## API docs and Miscellanous
 
 - [HPE Oneview API](https://techlibrary.hpe.com/docs/enterprise/servers/oneview5.2/cicf-api/en/index.html)
 - [HPE Oneview PowerShell Module](https://hpe-docs.gitbook.io/posh-hpeoneview/cmdlets/v5.20)
