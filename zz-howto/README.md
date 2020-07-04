@@ -22,6 +22,139 @@ Reset-HPOVEnclosureDevice -Component Device -DeviceID 6 -Enclosure $encl2 -EFuse
 Reset-HPOVEnclosureDevice -Component Device -DeviceID 7 -Enclosure $encl2 -EFuse
 ```
 
+### Export/Import Synergy config - METHOD 1
+
+In this method, the input model is a existing Synergy upand running we want to import and export to another Synergy.
+This method is using the powershell module.
+
+```bash
+
+# Keep your secret - https://devblogs.microsoft.com/powershell/secret-management-preview-2-release/
+Install-Module -Name Microsoft.PowerShell.SecretsManagement -RequiredVersion 0.2.0-alpha1 -AllowPrerelease
+Install-Module Microsoft.PowerShell.SecretManagement -AllowPrerelease
+Import-Module Microsoft.PowerShell.SecretsManagement
+Test-SecretVault BuiltInLocalVault
+--> this module is not yet cross-support platform (only Windows)
+--> to investigate later
+
+
+# Clean the current synergy configuration - 2 choices
+## 1st choice - use the hard method, using the factory reset (keep the network setting if you don't want to go on site)
+ssh composer > factory reset
+
+## 2nd choice - use the soft method using HPOneView module. This order is important !
+Documentation: https://hpe-docs.gitbook.io/posh-hpeoneview/cmdlets/v5.20/library/convertto-hpovpowershellscript 
+
+# Connect to OV
+$ov2clean=Connect-HPOVMgmt -Appliance $oneview -UserName $username -Password $password -Force -Confirm:$false
+Get-HPOVComposerNode
+
+
+# Delete Server-Profile
+Get-HPOVServerProfile -ApplianceConnection $ov2clean | Remove-HPOVServerProfile -Force -Confirm:$false
+
+# Delete Server-Profile-Template
+Get-HPOVServerProfileTemplate -ApplianceConnection $ov2clean | Remove-HPOVServerProfileTemplate -Force -Confirm:$false
+
+# Delete Server-LogicalEnclosure
+Get-HPOVLogicalEnclosure -ApplianceConnection $ov2clean | Remove-HPOVLogicalEnclosure -Force -Confirm:$false
+
+# Delete Server-EnclosureGroup
+Get-HPOVEnclosureGroup -ApplianceConnection $ov2clean | Remove-HPOVEnclosureGroup -Force -Confirm:$false
+
+# Delete Network-LogicalInterconnectGroup
+Get-HPOVLogicalInterconnectGroup -ApplianceConnection $ov2clean | Remove-HPOVLogicalInterconnectGroup -Force -Confirm:$false
+
+# Delete Network-NetworkSet
+Get-HPOVNetworkSet -ApplianceConnection $ov2clean | Remove-HPOVNetworkSet
+
+# Delete Network-Network
+Get-HPOVNetwork -ApplianceConnection $ov2clean | Remove-HPOVNetwork
+
+# Remove User - we are deleting this of course :)
+Get-HPOVUser -ApplianceConnection $ov2clean
+
+# Remove Scope
+Get-HPOVScope -ApplianceConnection $ov2clean | Remove-HPOVScope
+
+# Remove Baseline (firmwware bundle
+Get-HPOVBaseline -ApplianceConnection $ov2clean | Remove-HPOVBaseline
+
+# Remove AddressPoolSubnet (10.6.25.0 / 10.7.8.0 to check on composer3)
+Get-HPOVAddressPoolSubnet -ApplianceConnection $ov2clean | Remove-HPOVAddressPoolSubnet
+
+# Disconnect from OV
+Disconnect-HPOVMgmt $ov2clean
+
+
+
+## Now it's time to export/backup a existing config
+
+# connect to OV
+cd /root/workspace/synergy-config/synergy.obs.hpecic.net/
+pwsh
+$ov2export=Connect-HPOVMgmt -Appliance $oneview -UserName $username -Password $password
+
+# Export - order is important
+Get-HPOVAddressPoolSubnet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVAddressPoolSubnet.ps1
+Get-HPOVBaseline -ApplianceConnection $ov2export |  ConvertTo-HPOVPowerShellScript >  HPOVBaseline.ps1
+Get-HPOVScope -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVScope.ps1 (issue of parsing)
+Get-HPOVUser -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript > HPOVUser.ps1 (password not exported of course)
+Get-HPOVNetwork -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export HPOVNetwork.ps1 -Append
+Get-HPOVNetworkSet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript -Export  HPOVNetworkSet.ps1 -Append
+Get-HPOVLogicalInterconnectGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVLogicalInterconnectGroup.ps1
+Get-HPOVUplinkSet -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVUplinkSet.ps1
+Get-HPOVEnclosureGroup -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVEnclosureGroup.ps1
+Get-HPOVLogicalEnclosure -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVLogicalEnclosure.ps1
+Get-HPOVServerProfileTemplate -ApplianceConnection $ov2export | ConvertTo-HPOVPowerShellScript >  HPOVServerProfileTemplate.ps1
+
+## Now it's time to import to a new synergy
+cd /root/workspace/synergy-config/synergy.obs.hpecic.net/
+pwsh
+$ov2import=Connect-HPOVMgmt -Appliance $oneview -UserName $username -Password $password
+./HPOVNetwork.ps1 
+
+
+## To install/uninstall the module
+Get-InstalledModule
+Install-Module -Name HPOneView.520 -RequiredVersion 5.20.2422.3962
+Import-Module HPOneView.520
+
+Install-Module HPOneView.500
+Import-Module HPOneView.500
+
+Uninstall-Module HPOneView.400
+Uninstall-Module HPOneView.500
+Uninstall-Module HPOneView.520
+
+Connect-HPOVMgmt -Hostname synergy.obs.hpecic.net -Credential admin
+
+
+cd /root/workspace/github/Import-Export-OneView-Resources
+./Import-OVResources.ps1 -OVApplianceIP synergy.obs.hpecic.net -OVAdminName admin -OVAdminPassword PASSWORD -OVAddressPoolCSV /tmp/AddressPool.csv
+# with a specific module
+./Import-OVResources.ps1 -OVApplianceIP synergy.obs.hpecic.net -OVAdminName admin -OVAdminPassword PASSWORD -OneViewModule HPOneView.500 -OVAddressPoolCSV /tmp/AddressPool.csv
+
+# Export
+./Export-OVResources.ps1 -OVApplianceIP synergy.obs.hpecic.net -OVAdminName admin -OVAdminPassword PASSWORD -OneViewModule HPOneView.500 -All
+./Export-OVResources.ps1 -OVApplianceIP synergy.obs.hpecic.net -OVAdminName admin -OVAdminPassword PASSWORD -OneViewModule HPOneView.500 -OVusersCSV /tmp/OV-users.csv
+#Import
+./Import-OVResources.ps1 -OVApplianceIP composer3.synergy.hybridit.hpecic.net -OVAdminName administrator -OVAdminPassword PASSWORD -OneViewModule HPOneView.500 
+
+./Import-OVResources.ps1 -OVApplianceIP synergy.obs.hpecic.net -OVAdminName admin -OVAdminPassword PASSWORD -OneViewModule HPOneView.500 -OVAddressPoolCSV /tmp/AddressPool.csv
+
+```
+
+### Export/Import Synergy config - METHOD 1
+
+In this method, the input model is a excel file that will be filled by the administrator in order to deploy a new Synergy.
+For this method, we are using a developpement made (by a friend) using python converter which generate ansible playbook:
+https://github.com/DungKHoang/Generate-Ansible-playbooks-from-Excel
+
+```bash
+
+```
+
 ---
 
 ## VCF tips
