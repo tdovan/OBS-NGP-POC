@@ -10,7 +10,7 @@
       "dns1": "10.15.60.10",
       "dns2": "10.11.0.13",
       "bootProto": "static",
-      "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+      "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
       "mgmtNIC": {
         "connectionName": "CN-NS-1"
       },
@@ -23,6 +23,6 @@
   "deploymentMode": "hpesynergy",
       "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40-PRIMERA-BFS-SY660"
+    "ovSPT": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso"
   }
 }
