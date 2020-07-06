@@ -19,10 +19,10 @@
       }
     }
   ],
-  "osPackage": "HPE-ESXi-7.0-qedf_2.2.4.0-1OEM.700.1.0.15525992",
+  "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
   "deploymentMode": "hpesynergy",
       "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso"
+    "ovSPT": "SPT-VCF40-PRIMERA-BFS-SY660"
   }
 }
