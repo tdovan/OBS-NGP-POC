@@ -1,0 +1,27 @@
+{
+  "taskName": "VCF-VSAN-SY660",
+  "hosts": [
+    {
+      "serverProfile": "esx11.vcf.obs.hpecic.net-VCF-VI-PRIMERA",
+      "hostName": "esx11.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.21",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    }
+  ],
+  "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
+  "deploymentMode": "hpesynergy",
+      "oneviewDetails": {
+    "ovName": "synergy.obs.hpecic.net",
+    "ovSPT": "SPT-VCF40-VSAN-SY660"
+  }
+}
