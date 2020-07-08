@@ -175,7 +175,7 @@ https://kb.vmware.com/s/article/75172
 Here is the procedure
 
 ```bash
-ssh cloud-builder
+ssh admin@cloudbuilder.vcf.obs.hpecic.net
 vi /data/pgdata/pg_hba.conf
 uncomment the line
 local   replication     all                                     trust
