@@ -92,7 +92,7 @@ Disconnect-HPOVMgmt $ov2clean
 
 ## Now it's time to export/backup a existing config
 
-# connect to OV
+# Connect to OV
 cd /root/workspace/synergy-config/synergy.obs.hpecic.net/
 pwsh
 $ov2export=Connect-HPOVMgmt -Appliance $oneview -UserName $username -Password $password
