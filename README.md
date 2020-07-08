@@ -46,6 +46,8 @@ I've also added the tips/howto used to configure the platform [zz-howto](https:/
 - [HPE Primera API](https://support.hpe.com/hpesc/public/docDisplay?docLocale=en_US&docId=emr_na-a00088912en_us)
 
 - [VCF API](https://code.vmware.com/apis/921/vmware-cloud-foundation)
+- [VCF PowerVCF examples](https://github.com/PowerVCF/PowerVCF/)
+- [VCF PowerVCF Docs](https://github.com/PowerVCF/PowerVCF/)
 - [VCF PowerCli](https://code.vmware.com/docs/11794/cmdlet-reference)
 
 - [Cohesity API](https://developer.cohesity.com/apidocs-641.html#/rest)
