@@ -2,7 +2,7 @@
   "taskName": "VCF-VSAN-SY660",
   "hosts": [
     {
-      "serverProfile": "esx14.vcf.obs.hpecic.net-VCF-VI-PRIMERA",
+      "serverProfile": "esx14.vcf.obs.hpecic.net-SY660",
       "hostName": "esx14.vcf.obs.hpecic.net",
       "ipAddr": "10.15.61.24",
       "netmask": "255.255.255.0",
