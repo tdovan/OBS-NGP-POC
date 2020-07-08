@@ -2,9 +2,9 @@
   "taskName": "VCF-VSAN-SY660",
   "hosts": [
     {
-      "serverProfile": "esx11.vcf.obs.hpecic.net-VCF-VI-PRIMERA",
-      "hostName": "esx11.vcf.obs.hpecic.net",
-      "ipAddr": "10.15.61.21",
+      "serverProfile": "esx14.vcf.obs.hpecic.net-VCF-VI-PRIMERA",
+      "hostName": "esx14.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.24",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -22,6 +22,6 @@
   "deploymentMode": "hpesynergy",
       "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40-VSAN-SY660"
+    "ovSPT": "SPT-VCF40-SY660"
   }
 }
