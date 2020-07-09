@@ -70,6 +70,6 @@
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40"
+    "ovSPT": "SPT-VCF40-VSAN-SATA"
   }
 }
