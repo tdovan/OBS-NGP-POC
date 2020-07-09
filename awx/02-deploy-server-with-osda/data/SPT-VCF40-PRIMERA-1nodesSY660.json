@@ -1,0 +1,27 @@
+{
+  "taskName": "VCF-PRIMERA-1SY660",
+  "hosts": [
+    {
+      "serverProfile": "esx09.vcf.obs.hpecic.net-VCF-PRIMERA",
+      "hostName": "esx09.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.19",
+      "netmask": "255.255.255.0",
+      "gateway": "10.15.61.1",
+      "dns1": "10.15.60.10",
+      "dns2": "10.11.0.13",
+      "bootProto": "static",
+      "mgmtNIC": {
+        "connectionName": "CN-NS-1"
+      },
+      "osDrive": {
+        "driveName": "OS"
+      }
+    }
+  ],
+  "osPackage": "VMware-VMvisor-Installer-7.0.0-15843807.x86_64.iso",
+  "deploymentMode": "hpesynergy",
+    "oneviewDetails": {
+    "ovName": "synergy.obs.hpecic.net",
+    "ovSPT": "SPT-VCF40-PRIMERA-SY660"
+  }
+}

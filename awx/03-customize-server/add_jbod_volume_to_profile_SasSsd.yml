@@ -16,7 +16,7 @@
     - server_profile_name: "{{ inventory_hostname }}"
     #- server_profile_name: 'esx12.vcf.obs.hpecic.net-VCF-VI-HYBRID'
     #- config: '{{ playbook_dir }}/{{ oneview_config }}'
-    - size_GB: 1920                            #compulsary
+    - size_GB: 400                            #compulsary
     - drive_technology: 'SasSsd'                  #compulsary
     - drive_name: 'VSAN-JBOD'                        #compulsary
     - num_physical_drives: 5                #optional, default is 1
