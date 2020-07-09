@@ -1,10 +1,10 @@
 {
-  "taskName": "VCF-PRIMERA-4nodes",
+  "taskName": "VCF-MGMT-4nodes",
   "hosts": [
     {
-      "serverProfile": "esx09.vcf.obs.hpecic.net-VCF-PRIMERA",
-      "hostName": "esx09.vcf.obs.hpecic.net",
-      "ipAddr": "10.15.61.19",
+      "serverProfile": "esx01.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx01.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.11",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -18,9 +18,9 @@
       }
     },
     {
-      "serverProfile": "esx10.vcf.obs.hpecic.net-VCF-PRIMERA",
-      "hostName": "esx10.vcf.obs.hpecic.net",
-      "ipAddr": "10.15.61.20",
+      "serverProfile": "esx02.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx02.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.12",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -34,9 +34,9 @@
       }
     },
     {
-      "serverProfile": "esx11.vcf.obs.hpecic.net-VCF-PRIMERA",
-      "hostName": "esx11.vcf.obs.hpecic.net",
-      "ipAddr": "10.15.61.21",
+      "serverProfile": "esx03.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx03.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.13",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -50,9 +50,9 @@
       }
     },
     {
-      "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-PRIMERA",
-      "hostName": "esx12.vcf.obs.hpecic.net",
-      "ipAddr": "10.15.61.22",
+      "serverProfile": "esx04.vcf.obs.hpecic.net-VCF-MGMT",
+      "hostName": "esx04.vcf.obs.hpecic.net",
+      "ipAddr": "10.15.61.14",
       "netmask": "255.255.255.0",
       "gateway": "10.15.61.1",
       "dns1": "10.15.60.10",
@@ -70,6 +70,6 @@
   "deploymentMode": "hpesynergy",
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40-PRIMERA"
+    "ovSPT": "SPT-VCF40"
   }
 }
