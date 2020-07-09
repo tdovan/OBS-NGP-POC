@@ -19,7 +19,7 @@
     - size_GB: 400                            #compulsary
     - drive_technology: 'SasSsd'                  #compulsary
     - drive_name: 'VSAN-JBOD'                        #compulsary
-    - num_physical_drives: 5                #optional, default is 1
+    - num_physical_drives: 1                #optional, default is 1
     - erase_data: false                      #optional, default is true
     - persistent: false                      #optional, default is true
     - id: 0                                 #for execution purpose only
