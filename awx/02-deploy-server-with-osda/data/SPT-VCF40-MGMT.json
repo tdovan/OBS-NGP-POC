@@ -68,8 +68,9 @@
   ],
   "osPackage": "VMware_ESXi_7.0.0_16324942_HPE_700.0.0.10.5.5.46_Jun2020.iso",
   "deploymentMode": "hpesynergy",
+  "createServerProfile": false,
     "oneviewDetails": {
     "ovName": "synergy.obs.hpecic.net",
-    "ovSPT": "SPT-VCF40"
+    "ovSPT": "SPT-VCF40-MGMT"
   }
 }
