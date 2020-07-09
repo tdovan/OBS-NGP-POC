@@ -49,6 +49,8 @@ I've also added the tips/howto used to configure the platform [zz-howto](https:/
 - [VCF PowerVCF examples](https://github.com/PowerVCF/PowerVCF/)
 - [VCF PowerVCF Docs](https://github.com/PowerVCF/PowerVCF/)
 - [VCF PowerCli](https://code.vmware.com/docs/11794/cmdlet-reference)
+- [VCF API schema](https://vdc-download.vmware.com/vmwb-repository/dcr-public/906e5952-1237-4089-b618-a608b5efb1fc/47c2c76b-d71b-4fa0-bf17-57c292cd2395/index.html#_fcspec)
+
 
 - [Cohesity API](https://developer.cohesity.com/apidocs-641.html#/rest)
 
