@@ -1,5 +1,5 @@
 {
-  "taskName": "VCF-PRIMERA-esx12",
+  "taskName": "VCF-PRIMERA-esx12-scale",
   "hosts": [
     {
       "serverProfile": "esx12.vcf.obs.hpecic.net",
