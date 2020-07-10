@@ -2,7 +2,7 @@
   "taskName": "VCF-VSAN-4nodes",
   "hosts": [
     {
-      "serverProfile": "esx08.vcf.obs.hpecic.net-VCF-VSAN",
+      "serverProfile": "esx08.vcf.obs.hpecic.net",
       "hostName": "esx08.vcf.obs.hpecic.net",
       "ipAddr": "10.15.61.18",
       "netmask": "255.255.255.0",
