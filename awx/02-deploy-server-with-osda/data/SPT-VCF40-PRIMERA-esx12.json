@@ -2,7 +2,7 @@
   "taskName": "VCF-PRIMERA-esx12",
   "hosts": [
     {
-      "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-PRIMERA",
+      "serverProfile": "esx12.vcf.obs.hpecic.net",
       "hostName": "esx12.vcf.obs.hpecic.net",
       "ipAddr": "10.15.61.22",
       "netmask": "255.255.255.0",
