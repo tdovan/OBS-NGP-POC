@@ -1,5 +1,5 @@
 {
-  "taskName": "VCF-PRIMERA-4nodes",
+  "taskName": "VCF-PRIMERA-esx12",
   "hosts": [
     {
       "serverProfile": "esx12.vcf.obs.hpecic.net-VCF-PRIMERA",
